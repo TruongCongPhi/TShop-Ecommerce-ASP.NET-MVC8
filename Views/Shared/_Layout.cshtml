@@ -1,0 +1,419 @@
+﻿@{
+    string action = ViewContext.RouteData.Values["Action"].ToString();
+    string controller = ViewContext.RouteData.Values["Controller"].ToString();
+    string category = ViewContext.RouteData.Values.ContainsKey("category") ? ViewContext.RouteData.Values["category"].ToString() : "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Tshop/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Tshop/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Tshop/img/favicons/favicon-16x16.png">
+    <link rel="shortcut icon" type="image/x-icon" href="~/Tshop/img/favicons/favicon.ico">
+    <link rel="manifest" href="~/Tshop/img/favicons/manifest.json">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+
+    <link rel="stylesheet" href="~/TShop/css/bootstrap.css" type="text/css">
+
+    <link rel="stylesheet" href="~/TShop/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="~/TShop/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="~/TShop/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="~/TShop/css/nice-select.css" type="text/css">
+    <link href="~/TShop/css/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/TShop/css/slicknav.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/TShop/css/style.css" type="text/css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+
+    <link href="~/tshop/css/swiper.css" rel="stylesheet" />
+    <script src="~/TShop/js/jquery-3.3.1.min.js"></script>
+
+</head>
+<body>
+    <div class="app">
+        <!-- Thêm modal vào phần HTML của bạn -->
+        <div class="modal" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="..." aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body border-0">
+                        Bạn có muốn xóa sản phẩm khỏi giỏ hàng?
+                    </div>
+                    <div class="modal-footer  border-0">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-primary" id="confirmDelete">Xóa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasRightLabel">
+            @await Component.InvokeAsync("CartOffCanvas")
+        </div>
+        <!-- Offcanvas Menu Begin -->
+        <div class="offcanvas-menu-overlay"></div>
+        <div class="offcanvas-menu-wrapper">
+            <div class="offcanvas__option">
+                @* <div class="offcanvas__links">
+                <a href="#">Sign in</a>
+                <a href="#">FAQs</a>
+                </div>
+                <div class="offcanvas__top__hover">
+                <span>Usd <i class="arrow_carrot-down"></i></span>
+                <ul>
+                <li>USD</li>
+                <li>EUR</li>
+                <li>USD</li>
+                </ul>
+                </div> *@
+            </div>
+            <div class="offcanvas__nav__option">
+                <input type="search" class="form-control" />
+                <a href="#" class="search-switch"><img src="TShop/img/icon/search.png" alt=""></a>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Accounts" asp-action="Infor">
+                        <div>
+                            <img width="24px" src="~/TShop/img/icon/account.png" />
+                        </div>
+                        <p>Tài khoản</p>
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Accounts" asp-action="Login">
+                        <div>
+                            <img width="24px" src="~/TShop/img/icon/account.png" />
+                        </div>
+                        <p>Tài khoản</p>
+                    </a>
+
+                }
+
+
+                <a href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasRight">
+                    @await Html.PartialAsync("_NumberCartPartial")
+                </a>
+            </div>
+            <div id="mobile-menu-wrap"></div>
+            <div class="offcanvas__text">
+                <p>Miễn phí giao hàng, trả hàng trong 30 ngày.</p>
+            </div>
+        </div>
+
+        <!-- Header Section Begin -->
+        <header class="header ">
+            <div class="header__top ">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-7">
+                            <div class="header__top__left">
+                                <p>Miễn phí giao hàng, trả hàng trong 30 ngày.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-5">
+                            @* <div class="header__top__right">
+                            <div class="header__top__links">
+                            <a href="#">Sign in</a>
+                            <a href="#">FAQs</a>
+                            </div>
+                            <div class="header__top__hover">
+                            <span>Usd <i class="arrow_carrot-down"></i></span>
+                            <ul>
+                            <li>USD</li>
+                            <li>EUR</li>
+                            <li>USD</li>
+                            </ul>
+                            </div>
+                            </div> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+        <div class="header__menu__bottom">
+            @if (User.IsInRole("admin"))
+            {
+                 <div class="px-3 bg-white text-dark border-bottom">
+                <div class="container">
+                    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-center">
+ 
+                        <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                            <li>
+                                <a asp-area="admin" asp-controller="home" asp-action="index" class="nav-link text-dark py-0">
+                                    <div class=" d-block mx-auto text-center" width="24" height="24"><i class="fa fa-tachometer" aria-hidden="true"></i></div>
+                                    Tổng quan
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="admin" asp-controller="orders" asp-action="index" class="nav-link text-dark py-0">
+                                    <div class=" d-block mx-auto text-center" width="24" height="24"><i class="fa fa-shopping-bag" aria-hidden="true"></i></div>
+                                    Đơn hàng
+                                </a>
+                            </li>
+                            <li>
+                                    <a asp-area="admin" asp-controller="products" asp-action="index" class="nav-link text-dark py-0">
+                                    <div class=" d-block mx-auto text-center" width="24" height="24">
+                                        <i class="fa fa-table" aria-hidden="true"></i>
+                                    </div>
+                                    Sản phẩm
+                                </a>
+                            </li>
+                            <li>
+                                    <a asp-area="admin" asp-controller="blogs" asp-action="index" class="nav-link text-dark py-0">
+                                    <div class=" d-block mx-auto text-center" width="24" height="24"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+                                    Tin tức
+                                </a>
+                            </li>
+                            <li>
+                                    <a asp-area="admin" asp-controller="accounts" asp-action="index" class="nav-link text-dark py-0">
+                                    <div class=" d-block mx-auto text-center" width="24" height="24"><i class="fa fa-user" aria-hidden="true"></i></div>
+                                    Người dùng
+                                    </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            }
+           
+            <div class="row header__bottom">
+                <div class="col-lg-1 col-md-1">
+                    <div class="header__logo">
+                        <a href="/"><img src="~/TShop/img/logo2.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-7">
+                    <nav class="header__menu mobile-menu">
+                        <ul>
+                            <li class="@((controller == "Product" && action == "ProductCategory" && category == "nam" ) ? "active" : "" )">
+                                <a asp-controller="Product" asp-action="ProductCategory" asp-route-category="nam">Nam</a>
+                                <ul class="dropdown">
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="nam" asp-route-typecategory="ao-phong">Áo phông/ Áo thun</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="nam" asp-route-typecategory="ao-polo">Áo polo</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="nam" asp-route-typecategory="ao-chong-nang">Áo chống nắng</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="nam" asp-route-typecategory="quan-dai">Quần dài</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="nam" asp-route-typecategory="quan-sooc">Quần Soóc</a></li>
+                                </ul>
+                            </li>
+                            <li class="@((controller == "Product" && action == "ProductCategory" && category == "nu" ) ? "active" : "" )">
+                                <a asp-controller="Product" asp-action="ProductCategory" asp-route-category="nu">Nữ</a>
+                                <ul class="dropdown">
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="nu" asp-route-typecategory="ao-phong">Áo phông/ Áo thun</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="nu" asp-route-typecategory="ao-polo">Áo polo</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="nu" asp-route-typecategory="ao-chong-nang">Áo chống nắng</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="nu" asp-route-typecategory="quan-dai">Quần dài</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="nu" asp-route-typecategory="quan-sooc">Quần Soóc</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="nu" asp-route-typecategory="vay">Váy</a></li>
+                                </ul>
+                            </li>
+                            <li class="@((controller == "Product" && action == "ProductCategory" && category == "boy" ) ? "active" : "" )">
+                                <a asp-controller="Product" asp-action="ProductCategory" asp-route-category="boy">Bé trai</a>
+                                <ul class="dropdown">
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="boy" asp-route-typecategory="ao-phong">Áo phông/ Áo thun</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="boy" asp-route-typecategory="ao-polo">Áo polo</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="boy" asp-route-typecategory="ao-chong-nang">Áo chống nắng</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="boy" asp-route-typecategory="quan-dai">Quần dài</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="boy" asp-route-typecategory="quan-sooc">Quần Soóc</a></li>
+                                </ul>
+                            </li>
+                            <li class="@((controller == "Product" && action == "ProductCategory" && category == "girl" ) ? "active" : "" )">
+                                <a asp-controller="Product" asp-action="ProductCategory" asp-route-category="girl">Bé gái</a>
+                                <ul class="dropdown">
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="girl" asp-route-typecategory="ao-phong">Áo phông/ Áo thun</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="girl" asp-route-typecategory="ao-polo">Áo polo</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="girl" asp-route-typecategory="ao-chong-nang">Áo chống nắng</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="girl" asp-route-typecategory="quan-dai">Quần dài</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="girl" asp-route-typecategory="quan-sooc">Quần Soóc</a></li>
+                                    <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="girl" asp-route-typecategory="vay">Váy</a></li>
+                                </ul>
+                            </li>
+                            <li class="@((controller == "Blog" && action == "Index" ) ? "active" : "" )"><a asp-controller="Blog" asp-action="Index">Tin tức</a></li>
+                            
+
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="header__nav__option">
+                        <div class="position-relative w-100">
+                            <input type="search" class="form-control" list="datalistOptions" placeholder="Tìm kiếm..." id="searchQuery" />
+                            <ul class="list-group position-absolute w-100 text-start overflow-auto" id="list-search" style="height:600px">
+                            </ul>
+                        </div>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a asp-controller="Accounts" asp-action="Infor">
+                                <div>
+                                    <img width="24px" src="~/TShop/img/icon/account.png" />
+                                </div>
+                                <p>Tài khoản</p>
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Accounts" asp-action="Login">
+                                <div>
+                                    <img width="24px" src="~/TShop/img/icon/account.png" />
+                                </div>
+                                <p>Tài khoản</p>
+                            </a>
+
+                        }
+
+
+                        <a href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasRight">
+
+                            @await Html.PartialAsync("_NumberCartPartial")
+
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="canvas__open"><i class="fa fa-bars"></i></div>
+        </div>
+        <!-- Header Section End -->
+        <!--Toast -->
+        <div id="toast-container" class="position-fixed top-1 end-0 p-3" style="z-index: 1000;">
+        </div>
+
+        @RenderBody()
+
+    </div>
+
+    <!-- Footer Section Begin -->
+    <footer class="footer bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="footer__widget">
+                            <h6 class="text-nowrap">CÔNG TY CỔ PHẦN TSHOP</h6>
+                        </div>
+                        <span class="text-dark">
+                            Số ĐKKD: ..., ngày cấp: ..., Nơi cấp: Sở Kế hoạch và đầu tư Hà Nội
+
+                            Địa chỉ trụ sở tại số ..., Phường ..., Quận ..., Thành phố Hà Nội.<br />
+
+                            Địa chỉ liên hệ: ..., ..., ...<br />
+
+                            Điện thoại: 0345 758 757<br />
+
+                            Email: truongcongphi0201@gmail.com
+                        </span>
+                </div>
+                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Thương hiệu</h6>
+                        <ul>
+                            <li><a href="#">Giới thiệu</a></li>
+                            <li><a href="#">Tin tức</a></li>
+                            <li><a href="#">Tuyển dụng</a></li>
+                            <li><a href="#">Liên hệ</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Hỗ trợ</h6>
+                        <ul>
+                            <li><a href="#">Hỏi đáp</a></li>
+                            <li><a href="#">Chính sách KHTT</a></li>
+                            <li><a href="#">Gợi ý tìm size</a></li>
+                            <li><a href="#">Chính sách vận chuyển</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Thư mới</h6>
+                        <div class="footer__newslatter">
+                            <p>Hãy là người đầu tiên biết về hàng mới đến, xem sản phảm và khuyến mãi!</p>
+                            <form action="#">
+                                <input type="text" placeholder="Email của bạn">
+                                <button type="submit"><span class="icon_mail_alt"></span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="footer__copyright__text">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        <p>
+                            Copyright ©
+                            <script>
+                                document.write(new Date().getFullYear());
+                            </script>
+                           TShop
+                        </p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+    <!-- Js Plugins -->
+    <script>
+        $(document).ready(function () {
+            $('#searchQuery').on('input', function () {
+                var query = $(this).val();
+                if (query === "") {
+                    $('#list-search').empty();
+                    return;
+                }
+
+                $.ajax({
+                    url: '/Product/SearchProducts',
+                    type: 'GET',
+                    data: { query: query },
+                    success: function (result) {
+                        $('#list-search').empty();
+                        if (result.trim().length === 0) {
+                            $('#list-search').append('<li class="list-group-item">Không tìm thấy sản phẩm</li>');
+                        } else {
+                            $('#list-search').html(result);
+                        }
+                    }
+                });
+            });
+
+            $(document).on('click', function (event) {
+                if (!$(event.target).closest('#searchQuery, #list-search').length) {
+                    $('#list-search').empty();
+                }
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="~/TShop/js/bootstrap.min.js"></script>
+    <script src="~/TShop/js/jquery.nice-select.min.js"></script>
+    <script src="~/TShop/js/jquery.nicescroll.min.js"></script>
+    <script src="~/TShop/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/TShop/js/jquery.countdown.min.js"></script>
+    <script src="~/TShop/js/owl.carousel.min.js"></script>
+    <script src="~/TShop/js/jquery.slicknav.js"></script>
+    <script src="~/TShop/js/mixitup.min.js"></script>
+
+    <script src="~/tshop/js/product.js"></script>
+    <script src="~/TShop/js/main.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    @await Component.InvokeAsync("Notyf")
+</body>
+</html>

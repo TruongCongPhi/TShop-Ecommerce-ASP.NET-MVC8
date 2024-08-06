@@ -1,0 +1,105 @@
+﻿@model IEnumerable<TShop.Models.Color>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row flex-between-center">
+
+            <div class="col-sm-auto">
+                <a class="btn btn-primary mb-2" asp-action="Create">Thêm màu</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="tableExample2" data-list='{"valueNames":["index","name","desc","price","stock","createAt","category","gendercategory"],"page":20,"pagination":true}'>
+            <div class="table-responsive scrollbar">
+                <table class="table table-bordered table-striped fs--1 mb-0">
+                    <thead class="bg-200 text-900">
+                        <tr>
+                            <th class="sort" data-sort="index">
+                                #
+                            </th>
+                            <th class="sort" data-sort="">
+                                Nhóm màu
+                            </th>
+                            <th class="sort" data-sort="name">
+                               Chi tiết
+                            </th>
+                     
+                        </tr>
+                    </thead>
+                    <tbody class="list" id="productTableBody">
+
+                        @{
+                            var index = 1;
+                            @foreach (var item in Model.Where(c => c.Levels == null && c.ParentId == null))
+                            {
+                                <tr>
+                                    <td class="index">
+                                        @index
+                                    </td>
+                                    
+                                    <td class="name ">
+                                        
+                                        <div class="d-flex">
+                                            <div class="badge px-3 py-2 fs--1 border" style="background-color:@item.ColorHex">@item.ColorName
+                                        </div>
+                                        <div class="dropdown font-sans-serif position-static">
+                                            <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" id="customer-dropdown-24" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
+                                            <div class="dropdown-menu dropdown-menu-end border py-0" aria-labelledby="customer-dropdown-24">
+                                                <div class="bg-white py-2">
+                                                    <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.ColorId">Chỉnh sửa</a>
+                                                    <a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@item.ColorId">Xóa</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </td>
+                                    <td class="">
+                                        <ul>
+                                            @foreach (var color in Model.Where(c => c.Levels == 1 && c.ParentId == item.ColorId))
+                                            {
+                                                <li class="mb-2 d-flex">
+                                                    <div class="badge px-3 py-2 fs--2 me-2" style="background-color:@color.ColorHex">@color.ColorName </div>
+                                                    <div class="dropdown font-sans-serif position-static">
+                                                        <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" id="customer-dropdown-24" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
+                                                        <div class="dropdown-menu dropdown-menu-end border py-0" aria-labelledby="customer-dropdown-24">
+                                                            <div class="bg-white py-2">
+                                                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@color.ColorId">Chỉnh sửa</a>
+                                                                <a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@color.ColorId">Xóa</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ul>
+
+
+                                    </td>
+                                  
+                                </tr>
+                                index++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <button class="btn btn-sm btn-falcon-default me-1" type="button" title="Previous" data-list-pagination="prev">
+                    <span class="fas fa-chevron-left"></span>
+                </button>
+                <ul class="pagination mb-0"></ul>
+                <button class="btn btn-sm btn-falcon-default ms-1" type="button" title="Next" data-list-pagination="next">
+                    <span class="fas fa-chevron-right"> </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>

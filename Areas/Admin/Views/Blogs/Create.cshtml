@@ -1,0 +1,178 @@
+﻿@model TShop.Models.Blog
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="card mt-3 mb-3">
+        <div class="card-body">
+            <div class="row flex-between-center">
+                <div class="col-md">
+                    <h5 class="mb-2 mb-md-0">Tạo bài viết mới</h5>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-falcon-default btn-sm me-2" role="button">Đặt lại tất cả</button>
+                    <button class="btn btn-falcon-primary btn-sm" role="button">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <a asp-action="Index">Danh sách bài viết</a>
+    </div>
+    <hr />
+    <div class="row g-3">
+        <div class="col-lg-8 pe-lg-2">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="mb-0">Thông tin</h5>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="row gx-2">
+                        <div class="row mb-3">
+
+                            <label class="col-sm-2 col-form-label">Ảnh đại diện</label>
+                                <div class="col-sm-10">
+                                <input class="form-control" type="file" name="Thumb" id="fileInput" />
+                                <div class="mt-2" id="uploaded_image"></div>
+                                </div>
+                            
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" asp-for="Title"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="Title" class="form-control" type="text" />
+                                <span asp-validation-for="Title" class="text-danger fs--1"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" asp-for="Content"></label>
+                            <div class="col-sm-10">
+                                <textarea asp-for="Content" class="form-control d-none" id="tiny"></textarea>
+                                <span asp-validation-for="Content" class="text-danger fs--1"></span>
+                            </div>
+                        </div>
+                      
+                        <div class="row mb-3">
+                            <label asp-for="Author" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="Author" class="form-control" />
+                                <span asp-validation-for="Author" class="text-danger fs--1"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-dashed-bottom my-3"></div>
+                    <label class="col-form-label ps-2">Trạng thái</label>
+                    <div class="row ps-2">
+                        <div class="col-sm-6">
+                            <div class=" form-check">
+                                @Html.RadioButtonFor(model => model.Published, true, new { @class = "form-check-input", id = "statusDisplay" })
+                                <label class="form-label mb-0"> <strong>Hiển thị</strong></label>
+                                <div class="form-text mt-0">
+                                    Hiển thị bài viết 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class=" form-check">
+                                @Html.RadioButtonFor(model => model.Published, false, new { @class = "form-check-input", id = "statusHide" })
+                                <label class="form-label mb-0"> <strong>Ẩn</strong></label>
+                                <div class="form-text mt-0">Ẩn bài viết</div>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Published" class="text-danger fs--1"></span>
+
+                    </div>
+                   
+                </div>
+            </div>
+            
+
+        </div>
+        <div class="col-lg-4 ps-lg-2">
+            <div class="sticky-sidebar">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5 class="mb-0">Danh mục bài viết</h5>
+                    </div>
+                    <div class="card-body bg-light">
+                        <div class="row mb-3"> 
+                            <div class="col-sm-6">
+                                <label class="form-label">Danh mục</label>
+                                <select asp-for="BlogCategoryId" asp-items="ViewBag.BlogCategoryId" class="form-select form-select-sm"></select>
+                            </div>
+                        </div>
+
+                        <div class="border-dashed-bottom my-3"></div>
+
+                        <h6>Thuộc loại</h6>
+                        <div class="form-check custom-checkbox mb-0">
+                            @Html.CheckBoxFor(model => model.IsHot, new { @class = "form-check-input" })
+                            <label class="form-label mb-0">Hot</label>
+                        </div>
+                        <div class="form-check custom-checkbox mb-0">
+                            @Html.CheckBoxFor(model => model.IsNewFeed, new { @class = "form-check-input" })
+                            <label class="form-label mb-0">Bài viết mới</label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-md">
+                    <h5 class="mb-2 mb-md-0">Đã hoàn thành thông tin</h5>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-falcon-default btn-sm me-2" type="submit">Lưu</button>
+                    <button class="btn btn-falcon-primary btn-sm">Đặt lại </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#fileInput').on('change', function (event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const img = $('<img>').attr('src', e.target.result).css('max-width', '100%');
+                        $('#uploaded_image').html(img);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+    <script>
+        tinymce.init({
+            selector: 'textarea#tiny',
+            height: 500,
+            plugins: [
+                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
+        });
+
+    </script>
+}

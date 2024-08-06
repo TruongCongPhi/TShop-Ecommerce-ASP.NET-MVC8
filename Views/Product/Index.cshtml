@@ -1,0 +1,64 @@
+﻿@model IEnumerable<TShop.ViewModels.ProductVM>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_ProductList";
+}
+
+
+<!-- Breadcrumb 
+Section Begin -->
+    @section BreadCum{
+    <section class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__text">
+                        <h4>Shop</h4>
+                        <div class="breadcrumb__links">
+                            <a href="./index.html">Home</a>
+                            <span>Shop</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    }
+    <!-- Breadcrumb Section End -->
+
+@foreach(var item in Model)
+{
+    <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="product__item">
+            <div class="product__item__pic set-bg" data-setbg="PShop/img/product/tnv1yrrh.png">
+                <ul class="product__hover">
+                    <li><a href="#"><img src="~/PShop/img/icon/heart.png" alt=""></a></li>
+                    <li>
+                        <a href="#"><img src="~/PShop/img/icon/compare.png" alt=""> <span>Compare</span></a>
+                    </li>
+                    <li><a href="#"><img src="~/PShop/img/icon/search.png" alt=""></a></li>
+                </ul>
+            </div>
+            <div class="product__item__text">
+                <div class="add-cart"><span>Thêm giỏ hàng</span></div>
+                <div class="product__color__select ms-0">
+                    <label class="active" for="pc-4" style="background: red;">
+                        <input type="radio" id="pc-4">
+                    </label>
+                    <label style="background: #404a47;" for="pc-5">
+                        <input type="radio" id="pc-5">
+                    </label>
+                    <label class="grey" for="pc-6">
+                        <input type="radio" id="pc-6">
+                    </label>
+                </div>
+                <span class="mt-3 product__name text-truncate">@item.ProductName</span>
+                <p class="price__after mb-0">@item.Price</p>
+                <span class="price__before">100.000 đ</span>
+                <span class="price__sale">-20%</span>
+                
+
+            </div>
+        </div>
+    </div>
+}

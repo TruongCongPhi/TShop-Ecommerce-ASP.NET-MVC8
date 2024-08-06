@@ -1,0 +1,106 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\TShop\css\bootstrap.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\TShop\css\bootstrap.css.map" />
+    <_ContentIncludedByDefault Remove="wwwroot\TShop\css\bootstrap.min.css.map" />
+    <_ContentIncludedByDefault Remove="wwwroot\TShop\css\bootstrap.rtl.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\TShop\css\bootstrap.rtl.css.map" />
+    <_ContentIncludedByDefault Remove="wwwroot\TShop\css\bootstrap.rtl.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\TShop\css\bootstrap.rtl.min.css.map" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Areas\Admin\Views\Accounts\Edit.cshtml" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap-grid.rtl.css.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap-grid.rtl.min.css.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap-reboot.rtl.css.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap-reboot.rtl.min.css.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap-utilities.css.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap-utilities.min.css.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap-utilities.rtl.css.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap-utilities.rtl.min.css.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap.rtl.css.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\css\bootstrap.rtl.min.css.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\js\bootstrap.esm.js" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\js\bootstrap.esm.js.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\js\bootstrap.esm.min.js" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\js\bootstrap.esm.min.js.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\js\bootstrap.js" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\js\bootstrap.js.map" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\bootstrap-5.3.3-dist\js\bootstrap.min.js.map" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\TShop\css\bootstrap.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\TShop\css\bootstrap.css.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\TShop\css\bootstrap.min.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\TShop\css\bootstrap.min.css.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\TShop\css\bootstrap.rtl.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\TShop\css\bootstrap.rtl.css.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\TShop\css\bootstrap.rtl.min.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\TShop\css\bootstrap.rtl.min.css.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\TShop\img\product\" />
+  </ItemGroup>
+
+</Project>

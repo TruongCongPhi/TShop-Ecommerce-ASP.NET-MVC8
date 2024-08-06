@@ -1,0 +1,48 @@
+﻿@model List<TShop.Models.Order>
+@{
+    Layout = "~/Views/Accounts/_MenuAccountPartial.cshtml";
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+
+}
+
+<div class="table-responsive fs--1">
+    <table class="table border-bottom">
+        <thead class="bg-200 text-900">
+            <tr>
+                <th class="border-0 text-center">Hóa đơn</th>
+                <th class="border-0 text-center">Số lượng</th>
+                <th class="border-0 text-end">Tổng tiền</th>
+                <th class="border-0 text-center">Ngày đặt hàng</th>
+                <th class="border-0 text-center">Xem</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model.Count > 0 || Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr class="">
+                        <td class="align-middle text-center">
+                            #@item.OrderId
+                        </td>
+                        <td class="align-middle text-center">@item.OrderNumber</td>
+                        <td class="align-middle text-end">@item.TotalMoney?.ToString("#,0 ₫", culture.NumberFormat)</td>
+                        <td class="align-middle text-center">@item.OrderDate</td>
+                        <td class="align-middle text-center">
+                            <a asp-controller="Accounts" asp-action="OrderDetail" asp-route-orderid="@item.OrderId"><p class="mb-0 text-decoration-underline">Chi tiết</p></a>
+                        </td>
+
+                    </tr>
+                }
+            }
+            else
+            {
+                <div> Không có đơn hàng nào</div>
+            }
+
+
+        </tbody>
+    </table>
+</div>

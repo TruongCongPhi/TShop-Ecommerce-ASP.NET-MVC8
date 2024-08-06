@@ -1,0 +1,44 @@
+﻿@model TShop.Models.Color
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chỉnh sửa kích thước</h1>
+
+<div>
+    <a asp-action="Index">Danh sách kích thước</a>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ColorId" />
+            <input type="hidden" asp-for="Levels" />
+            <input type="hidden" asp-for="ParentId" />
+
+            <div class="form-group">
+                <label asp-for="ColorName" class="control-label"></label>
+                <input asp-for="ColorName" class="form-control" />
+                <span asp-validation-for="ColorName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ColorHex" class="control-label"></label>
+                <input asp-for="ColorHex" class="form-control" />
+                <span asp-validation-for="ColorHex" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

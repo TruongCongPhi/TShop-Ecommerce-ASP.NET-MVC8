@@ -1,0 +1,60 @@
+﻿@model TShop.Models.Blog
+@{
+    ViewData["Title"] = "Details";
+}
+
+<!-- Blog Details Hero Begin -->
+<section class="blog-hero spad">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-9 text-center">
+                <div class="blog__hero__text">
+                    <h2>@Model.Title</h2>
+                    <ul>
+                        <li>@Model.DateCreated.ToString("dd/MM/yyyy HH:mm")</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Details Hero End -->
+<!-- Blog Details Section Begin -->
+<section class="blog-details spad">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            
+            <div class="col-lg-8">
+                <div class="blog__details__content">
+                   
+                    <div class="blog__details__text">
+                        @Html.Raw(Model.Content)
+                    </div>
+                    <div class="blog__details__quote">
+                        <i class="fa fa-quote-left"></i>
+                        <div class="blog__details__author mb-3">
+                            <div class="blog__details__author__pic">
+                                <img src="~/Tshop/img/icon/user.svg" alt="">
+                            </div>
+                            <div class="blog__details__author__text">
+                                <h6>_ @Model.Author _</h6>
+                            </div>
+                        </div>
+                        <div class="mb-3">Tác giả</div>
+
+                        <p>
+                            “Jelly Nguyễn không chỉ là một biểu tượng thời trang mà còn là một chuyên gia tư vấn hàng đầu. Bà luôn sẵn sàng chia sẻ kiến thức và kinh nghiệm của mình về cách tạo nên phong cách riêng, từ cách chọn trang phục phù hợp cho từng dịp, đến cách kết hợp màu sắc và phụ kiện để tạo nên sự hoàn hảo và thú vị.”
+                        </p>
+                        
+                    </div>
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Details Section End -->
+

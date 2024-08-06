@@ -1,0 +1,140 @@
+﻿@model TShop.ViewModels.OrderDetailVM
+@{
+    Layout = "~/Views/Accounts/_MenuAccountPartial.cshtml";
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+    string statusLabel = "";
+    switch (Model.Order.TransactStatus.Status)
+    {
+        case "pending":
+            statusLabel = "<div class='py-2 px-3 badge rounded-pill  bg-warning'>Chờ xác nhận</div>";
+            break;
+        case "confirmed":
+            statusLabel = "<div class='py-2 px-3 badge rounded-pill  bg-info'>Đã xác nhận</div>";
+            break;
+        case "processing":
+            statusLabel = "<div class='py-2 px-3 badge rounded-pill  bg-primary'>Đang xử lý</div>";
+            break;
+        case "shipped":
+            statusLabel = "<div class='py-2 px-3 badge rounded-pill  bg-success'>Đã gửi hàng</div>";
+            break;
+        case "completed":
+            statusLabel = "<div class='py-2 px-3 badge rounded-pill  bg-success'>Hoàn thành</div>";
+            break;
+        case "cancelled":
+            statusLabel = "<div class='py-2 px-3 badge rounded-pill  bg-danger'>Đã hủy</div>";
+            break;
+        case "refunded":
+            statusLabel = "<div class='py-2 px-3 badge rounded-pill  bg-warning'>Đã trả hàng</div>";
+            break;
+        default:
+            statusLabel = "<div class='py-2 px-3 badge rounded-pill bg-secondary'>Không rõ</div>";
+            break;
+    }
+}
+<a asp-controller="Accounts" asp-action="Order" class="btn-outline-secondary btn mb-3">Quay lại</a>
+
+<div class="card mb-3">
+    <div class="card-body position-relative">
+        <h5>Chi tiết hóa đơn: #@Model.Order.OrderId</h5>
+        <p class="fs--1">@Model.Order.OrderDate</p>
+        <div>
+            <span class="me-2">Trạng thái: </span>
+            @Html.Raw(statusLabel)
+        </div>
+    </div>
+</div>
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+                <h5 class="mb-3 fs-0">Thông tin giao hàng</h5>
+                <p class="mb-0">Tên: <strong>@Model.FullName</strong></p>
+                <p class="mb-0 fs--1">Email: <strong>@Model.Order.Account.Email </strong></p>
+                <p class="mb-0 fs--1">Số điện thoại: <strong>@Model.PhoneNumber </strong></p>
+            </div>
+            <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+                <h5 class="mb-3 fs-0">Địa chỉ giao hàng</h5>
+                <p class="mb-0 fs--1">@Model.Order.Address<br />@Model.Order.Ward, @Model.Order.District, @Model.Order.City</p>
+                <div class="text-500 fs--1">(Free Shipping)</div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <h5 class="mb-3 fs-0">Phương thức thanh toán</h5>
+                <div class="d-flex">
+                    <img class="me-3" src="../../../assets/img/icons/visa.png" width="40" height="30" alt="" />
+                    <div class="flex-1">
+                        <h6 class="mb-0">@Model.Payment</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="table-responsive fs--1">
+            <table class="table fs--1 mb-0">
+                @foreach (var item in Model.CartItems)
+                {
+                    <tr class="border-bottom p-2">
+                        <td colspan="2" class="px-0">
+                            <div class="d-flex cart-item m-0">
+                                <div class="me-2" style="min-width:40px;">
+                                    <img src="@item.Thumb" width="40px" />
+                                </div>
+                                <div class="">
+                                    <div class="cart-item-detail">
+                                        <span class="cart-item-name text-nowrap">
+                                            @item.Product.ProductName
+                                        </span>
+                                        <div class="d-flex flex-nowrap" style="font-size:14px;">
+                                            <div style="background-color:@item.Color.ColorHex;" class="cart-item-color">
+                                            </div>
+                                            <span class="pe-1 border-end fw-medium">@item.Color.ColorName</span>
+                                            <span class="ms-1 me-3 fw-medium">@item.Size</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-end text-nowrap">
+                            <span>x</span>
+                            <span class="fw-bold">@item.Amount</span>
+                        </td>
+                        <td class="pe-0 text-end">
+                            <div class="row" style="font-size:14px;">
+                                @if (item.Product.Discount > 0)
+                                {
+                                    <span class="fw-bold text-nowrap">@item.Product.Discount.Value.ToString("#,0 ₫", culture.NumberFormat)</span>
+                                    <span class="text-decoration-line-through text-nowrap">@item.Product.Price.ToString("#,0 ₫", culture.NumberFormat)</span>
+                                }
+                                else
+                                {
+                                    <span class="fw-bold text-nowrap">@item.Product.Price.ToString("#,0 ₫", culture.NumberFormat)</span>
+                                }
+                            </div>
+                        </td>
+                        
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="row g-0 justify-content-end">
+            <div class="col-auto">
+                <table class="table table-sm table-borderless fs--1 text-end">
+                    <tr>
+                        <th class="text-900">Giá trị đơn hàng:</th>
+                        <td class="fw-semi-bold">@Model.Order.TotalMoney.Value.ToString("#,0 ₫", culture.NumberFormat)</td>
+                    </tr>
+                    <tr>
+                        <th class="text-900">Chiết khấu:</th>
+                        <td class="fw-semi-bold text-danger">@Model.Order.TotalDiscount.Value.ToString("#,0 ₫", culture.NumberFormat)</td>
+                    </tr>
+                    <tr class="border-top">
+                        <th class="fw-bold">Tổng tiền thanh toán:</th>
+                        <td class="fw-bold">@((Model.Order.TotalMoney - Model.Order.TotalDiscount).Value.ToString("#,0 ₫", culture.NumberFormat))</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

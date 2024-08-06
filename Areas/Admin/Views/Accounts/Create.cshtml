@@ -1,0 +1,50 @@
+﻿@model TShop.ViewModels.RegisterVM
+
+<h4>Thêm tài khoản</h4>
+<hr />
+<div class="card mb-3">
+    <form asp-action="Create" method="post">
+        <!-- Các input cho Email, Password, ConfirmPassword, RoleId -->
+        <div class="card-body bg-light border-top">
+            <div class="row">
+                <div class="col-lg col-xxl-5 mt-4 mt-lg-0 offset-xxl-1">
+                    <div class="row mb-2">
+                        <div class="col-5 col-sm-4">
+                            <p class="fw-semi-bold mb-1">Email</p>
+                        </div>
+                        <input class="form-control col" asp-for="Email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-sm-4">
+                            <p class="fw-semi-bold mb-1">Mật khẩu</p>
+                        </div>
+                        <input class="form-control col" type="password" asp-for="Password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-sm-4">
+                            <p class="fw-semi-bold mb-1">Xác nhận mật khẩu</p>
+                        </div>
+                        <input class="form-control col" type="password" asp-for="ConfirmPassword" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-sm-4">
+                            <p class="fw-semi-bold mb-1">Quyền</p>
+                        </div>
+                        <select class="form-select form-select-sm col" asp-for="RoleId" asp-items="ViewBag.RoleId"></select>
+                    </div>
+                </div>
+                <div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="card-footer border-top text-end">
+            <button type="submit" class="btn btn-falcon-default btn-sm ms-2">
+                <span class="fas fa-check fs--2 me-1"></span>Tạo
+            </button>
+        </div>
+    </form>
+</div>

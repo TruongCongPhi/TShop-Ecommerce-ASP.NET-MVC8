@@ -1,0 +1,169 @@
+﻿@model IEnumerable<TShop.Models.Blog>
+
+@{
+    ViewData["Title"] = "Blog";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Danh sách bài viết</h1>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row flex-between-center">
+
+            
+            <div class="col-sm-auto">
+                <input id="searchQuery" class="form-control form-control-sm" type="text" placeholder="Tìm kiếm..." />
+            </div>
+            <div class="col-sm-auto">
+                <a class="btn btn-sm btn-falcon-default" asp-action="Create"><span class="fas fa-plus me-2"></span>Thêm bài viết</a>
+
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="tableExample2" data-list='{"valueNames":["title","date","name","category"],"page":5,"pagination":true}'>
+            <div class="table-responsive scrollbar">
+                <table class="table table-bordered table-striped fs--1 mb-0">
+                    <thead class="bg-200 text-900">
+                        <tr>
+
+                            <th class="sort" data-sort="title">
+                                Tiêu đề
+                            </th>
+                            <th class="sort" data-sort="date">
+                                Ngày đăng
+                            </th>
+                            <th class="sort" data-sort="name">
+                                Người viết
+                            </th>
+                            <th class="sort" data-sort="category">
+                                Danh mục
+                            </th>
+                            <th class="sort" data-sort="">
+                                Chi tiết
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="list" id="blogTableBody">
+                        @if (Model.Count() > 0)
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="title">
+                                        <a class="text-900" asp-area="" asp-controller="Blog" asp-action="Detail" asp-route-id="@item.BlogId">@item.Title</a>
+                                    </td>
+                                    <td class="date">
+                                        @item.DateCreated.ToString("dd/MM/yyyy")
+                                    </td>
+                                    <td class="name text-900">
+                                        @item.Account.FullName
+                                    </td>
+                                    <td class="category">
+                                        @Html.DisplayFor(modelItem => item.BlogCategory.CategoryName)
+                                    </td>
+
+                                    <td>
+                                        <div class="dropdown font-sans-serif position-static">
+                                            <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" id="customer-dropdown-24" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
+                                            <div class="dropdown-menu dropdown-menu-end border py-0" aria-labelledby="customer-dropdown-24">
+                                                <div class="bg-white py-2">
+                                                    <a class="dropdown-item" asp-controller="Blogs" asp-action="Edit" asp-route-id="@item.BlogId">Chỉnh sửa</a>
+                                                    <a class="dropdown-item text-danger modal-delete" data-blogid="@item.BlogId">Xóa</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                        <td>Không có bài viết nào</td>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <button class="btn btn-sm btn-falcon-default me-1" type="button" title="Previous" data-list-pagination="prev">
+                    <span class="fas fa-chevron-left"></span>
+                </button>
+                <ul class="pagination mb-0"></ul>
+                <button class="btn btn-sm btn-falcon-default ms-1" type="button" title="Next" data-list-pagination="next">
+                    <span class="fas fa-chevron-right"> </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="..." aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0" id="modal-body-content">
+                <h5>Bạn có muốn xóa bài viết này</h5>
+
+            </div>
+            <div class="modal-footer  border-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="confirm">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#searchQuery').on('input', function () {
+                var query = $(this).val();
+
+                $.ajax({
+                    url: '/admin/blogs/search',
+                    type: 'POST',
+                    data: { query: query },
+                    success: function (result) {
+                        $('#blogTableBody').html(result);
+                    },
+                    error: function () {
+                        alert('Đã xảy ra lỗi khi tải dữ liệu');
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $('.modal-delete').click(function () {
+            var id = $(this).data("blogid");
+
+            $('#modal').modal('show');
+
+            $('#confirm').off('click').on('click', function () {
+                $('#modal').modal('hide');
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/blogs/deleteblog",
+                    data: {
+                        id: id
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            window.location.reload();
+                        } else {
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                    }
+                });
+            });
+        });
+
+
+
+    </script>
+}

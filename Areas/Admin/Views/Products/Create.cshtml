@@ -1,0 +1,502 @@
+﻿@model TShop.Models.Product
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="card mt-3 mb-3">
+        <div class="card-body">
+            <div class="row flex-between-center">
+                <div class="col-md">
+                    <h5 class="mb-2 mb-md-0">Thêm sản phẩm</h5>
+                </div>
+                <div class="col-auto">
+                    <button type="reset" class="btn btn-falcon-default btn-sm me-2" role="button">Đặt lại tất cả</button>
+                    <button class="btn btn-falcon-primary btn-sm" role="button">Lưu </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <a asp-action="Index">Danh sách sản phẩm</a>
+    </div>
+    <hr />
+    <div class="row g-3">
+        
+        <div class="col-lg-8 pe-lg-2">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="mb-0">Thông tin</h5>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="row gx-2">
+                        <div class="col-sm-12 mb-3">
+                            <label class="form-label" asp-for="ProductName"></label>
+                            <input asp-for="ProductName" class="form-control form-control-sm" />
+                            <span asp-validation-for="ProductName" class="text-danger fs--1"></span>
+                        </div>
+                        @* <div class="col-sm-12 mb-3">
+                            <label class="form-label" asp-for="Alias"></label>
+                            <input asp-for="Alias" class="form-control form-control-sm" type="text" />
+                            <span asp-validation-for="Alias" class="text-danger fs--1"></span>
+                        </div>
+                        <div class="col-sm-12 mb-3">
+                            <label asp-for="ProductCode" class="control-label"></label>
+                            <input asp-for="ProductCode" class="form-control form-control-sm" />
+                            <span asp-validation-for="ProductCode" class="text-danger fs--1"></span>
+                        </div> *@
+                        <div class="col-sm-12 mb-3">
+                            <label asp-for="Title" class="control-label"></label>
+                            <input asp-for="Title" class="form-control form-control-sm" />
+                            <span asp-validation-for="Title" class="text-danger fs--1"></span>
+                        </div>
+                        
+                        <div class="col-sm-12 mb-3">
+                            <label asp-for="Tags" class="control-label"></label>
+                            <input asp-for="Tags" class=" form-control form-control-sm" />
+                            <span asp-validation-for="Tags" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" asp-for="Description"></label>
+                            <textarea asp-for="Description" class="tinymce d-none"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="border-dashed-bottom my-3"></div>
+                    <h6>Trạng thái</h6>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class=" form-check">
+                                @Html.RadioButtonFor(model => model.Active, true, new { @class = "form-check-input", id = "statusDisplay" })
+                                <label class="form-label mb-0"> <strong>Hiển thị</strong></label>
+                                <div class="form-text mt-0">
+                                    Khách hàng có thể thấy sản phẩm trên trang.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class=" form-check">
+                                @Html.RadioButtonFor(model => model.Active, false, new { @class = "form-check-input", id = "statusHide" })
+                                <label class="form-label mb-0"> <strong>Ẩn</strong></label>
+                                <div class="form-text mt-0">Sản phẩm không được hiển thị trên trang</div>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Active" class="text-danger fs--1"></span>
+                        <div class="col-sm-5 mb-3">
+                            <label asp-for="Price" class="form-label"></label>
+                            <input asp-for="Price" class="form-control form-control-sm" placeholder="0đ" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+
+                        </div>
+                        <div class="col-sm-5 mb-3">
+                            <label asp-for="Discount" class="form-label"></label>
+                            <input asp-for="Discount" class="form-control form-control-sm" placeholder="0đ" />
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="mb-0">Biến thể thuộc tính</h5>
+                </div>
+
+                <div class="card-body bg-light" >
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label class="form-label">Nhóm màu</label>
+                                <div class=" text-left">
+                                    <div class="row justify-content-center">
+                                        <div class="col">
+                                            <select id="color-parent" asp-items="ViewBag.ColorId" name="colorgroup[]" multiple="multiple" class="3col active form-control">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label class="form-label">Chọn màu</label>
+                                    <a class="link-primary fs--1 pe-0" type="button" data-bs-toggle="modal" data-bs-target="#addColorModal">Thêm màu</a>
+                                </div>
+                                <div class=" text-left">
+                                    <div class="row justify-content-center">
+                                        <div class="col">
+                                            <select id="color-lv1" name="color[]" multiple="multiple" class="3col active form-control">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-5">
+                            <label class="form-label">Nhóm size</label>
+                            <select id="sizeGroupId" class="form-select form-select-sm" asp-items="ViewBag.SizeId">
+                                <option value="" selected="selected">Chọn...</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <label class="form-label">Chọn size</label>
+                                <a class="link-primary d-block fs--1 pe-0" type="button" data-bs-toggle="modal" data-bs-target="#addSizeModal">Thêm size</a>
+                            </div>
+                            <div class=" text-left">
+                                <div class="row justify-content-center">
+                                    <div class="col">
+                                        <select id="size-select" name="size[]" multiple="multiple" class="3col active form-control">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+
+                    <a id="add-variant" class="btn btn-primary" type="button">Tạo biến thể</a>
+                    <div id="variant-content"></div>
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-lg-4 ps-lg-2">
+            <div class="sticky-sidebar">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5 class="mb-0">Phân loại</h5>
+                    </div>
+                    <div class="card-body bg-light">
+                        <div class="row mb-3">
+                            <div class="col-sm-6 mb-3">
+                                <label class="form-label" asp-for="CategoryId"></label>
+                                <select id="category-parent" class="form-select form-select-sm" asp-items="ViewBag.CategoryId">
+                                    <option value="">chọn</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Loại danh mục</label>
+                                <select id="category-lv1" class="form-select form-select-sm"></select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Kiểu danh mục</label>
+                                <select id="category-lv2" asp-for="CategoryId" class="form-select form-select-sm"></select>
+                                <span asp-validation-for="CategoryId" class="text-danger fs--1"></span>
+
+                            </div>
+                        </div>
+
+                        <div class="border-dashed-bottom my-3"></div>
+
+                        <h6>Thuộc loại</h6>
+                        <div class="form-check custom-checkbox mb-0">
+                            @Html.CheckBoxFor(model => model.BestSellers, new { @class = "form-check-input" })
+                            <label class="form-label mb-0">Bán chạy</label>
+                        </div>
+                        <div class="form-check custom-checkbox mb-0">
+                            @Html.CheckBoxFor(model => model.HotDeal, new { @class = "form-check-input" })
+                            <label class="form-label mb-0">Hot deal</label>
+                        </div>
+                        <div class="form-check custom-checkbox mb-0">
+                            @Html.CheckBoxFor(model => model.HomeFlag, new { @class = "form-check-input" })
+                            <label class="form-label mb-0">Lên trang chủ</label>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-md">
+                    <h5 class="mb-2 mb-md-0">Đã hoàn thành thông tin sản phẩm</h5>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-falcon-default btn-sm me-2" type="submit">Lưu</button>
+                    <button class="btn btn-falcon-primary btn-sm">Đặt lại </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+<div class="modal fade" id="addColorModal" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg mt-6" role="document">
+        <div class="modal-content border-0">
+            <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
+                <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="bg-light rounded-top-lg py-3 ps-4 pe-6">
+                    <h4 class="mb-1">Thêm màu mới</h4>
+                </div>
+                <div class="p-4">
+                    <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <h5 class="mb-2 fs-0">Nhóm màu</h5>
+                            <select id="colorGroupIdNew" class="form-select" asp-items="ViewBag.ColorId">
+                                <option value="" selected="selected">Chọn...</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <h5 class="mb-2 fs-0">Chọn màu</h5>
+                            <div class="input-group">
+                                <input id="colorPicker" class="form-control form-control-color" type="color" />
+                                <input id="colorCode" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <h5 class="mb-2 fs-0">Tên màu</h5>
+                            <input id="colorNameNew" type="text" class="form-control ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Thoát</button>
+                <button id="addColor" class="btn btn-primary" type="button">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addSizeModal" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg mt-6" role="document">
+        <div class="modal-content border-0">
+            <div class="position-absolute top-0 end-0 mt-3 me-3 z-index-1">
+                <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="bg-light rounded-top-lg py-3 ps-4 pe-6">
+                    <h4 class="mb-1">Thêm size</h4>
+                </div>
+                <div class="p-4">
+                    <div class="row">
+                        <div class="col-sm-6 mb-3">
+                            <h5 class="mb-2 fs-0">Nhóm size</h5>
+                            <select id="sizeGroupIdNew" class="form-select" asp-items="ViewBag.SizeId">
+                                <option value="" selected="selected">Chọn...</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <h5 class="mb-2 fs-0">Tên size</h5>
+                            <input id="sizeNameNew" type="text" class="form-control">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Thoát</button>
+                <button id="addSize" class="btn btn-primary" type="button">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#category-parent').change(function () {
+                var parentId = $(this).val();
+                console.log(parentId);
+                if (parentId) {
+                    $.ajax({
+                        url: '/admin/product/GetCategories/' + parentId,
+                        type: 'GET',
+                        data: { level: 1 },
+                        success: function (data) {
+                            var options = '<option> Chọn</option>';
+                            $.each(data, function (index, item) {
+                                options += '<option value="' + item.categoryId + '">' + item.categoryName + '</option>';
+                            });
+                            $('#category-lv1').html(options);
+                        }
+                    });
+                } else {
+                    $('#category-lv1').empty();
+                }
+            });
+            $('#category-lv1').change(function () {
+                var parentId = $(this).val();
+                if (parentId) {
+                    $.ajax({
+                        url: '/admin/product/GetCategories/' + parentId,
+                        type: 'GET',
+                        data: { level: 2 },
+                        success: function (data) {
+                            var options =  '<option> Chọn</option>';;
+                            $.each(data, function (index, item) {
+                                options += '<option value="' + item.categoryId + '">' + item.categoryName + '</option>';
+                            });
+                            $('#category-lv2').html(options);
+                        }
+                    });
+                } else {
+                    $('#category-lv2').empty();
+                }
+            });
+
+
+            // biên thể $('#colorGroupId').multiselect();
+            $('#color-parent').change(function () {
+                var colorIds = $(this).val();
+                console.log(colorIds);
+                $.ajax({
+                    url: '/admin/product/GetColors',
+                    type: 'GET',
+                    data: { colorIds: colorIds },
+                    traditional: true,
+                    success: function (data) {
+                        var $select = $('#color-lv1');
+                        $select.empty();
+                        $.each(data, function (index, color) {
+                            $select.append($('<option>', {
+                                value: color.colorId,
+                                text: color.colorName + ' (' + color.colorHex + ')'
+                            }));
+                        });
+                        $select.multiselect('reload');
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+            $('#size-select').multiselect();
+            $('#sizeGroupId').change(function () {
+                var sizeGroupId = $(this).val();
+                $.ajax({
+                    url: '/admin/product/GetSizes/' + sizeGroupId,
+                    type: 'GET',
+                    success: function (data) {
+                        var $select = $('#size-select');
+                        $select.empty();
+                        $.each(data, function (index, size) {
+                            $select.append($('<option>', {
+                                value: size.sizeId,
+                                text: size.sizeName
+                            }));
+
+                        });
+                        $select.multiselect('reload');
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+            $('#add-variant').on('click', function () {
+                var selectedColors = $('#color-lv1').val();
+                var selectedSizes = $('#size-select').val();
+                console.log(JSON.stringify({
+                    selectedColors,
+                    selectedSizes,
+                }))
+                $.ajax({
+                    url: '/admin/product/addvariant',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        selectedColors,
+                        selectedSizes,
+                    }),
+                    success: function (response) {
+                        $('#variant-content').html(response);
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                        console.error('Response Text:', error.responseText);
+                    }
+                });
+            });
+            $('#addColor').on('click', function () {
+                var parentId = $('#colorGroupIdNew').val();
+                var colorCode = $('#colorPicker').val();
+                var colorName = $('#colorNameNew').val();
+
+
+                $.ajax({
+                    url: '/admin/product/addcolor',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        ParentId: parentId,
+                        Levels :1,
+                        ColorHex: colorCode,
+                        ColorName: colorName
+                    }),
+                    success: function (result) {
+
+                        if(result == true){
+                            alert(result.message);
+                        }else{
+                            alert(result.message);
+
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                        console.error('Response Text:', error.responseText);
+                    }
+                });
+            });
+            $('#addSize').on('click', function () {
+                var parentId = $('#sizeGroupIdNew').val();
+                var sizeName = $('#sizeNameNew').val();
+
+
+                $.ajax({
+                    url: '/admin/product/addsize',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        ParentId: parentId,
+                        Levels: 1,
+                        SizeName: sizeName
+                    }),
+                    success: function (result) {
+
+                        if (result == true) {
+                            alert(result.message);
+                        } else {
+                            alert(result.message);
+
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                        console.error('Response Text:', error.responseText);
+                    }
+                });
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            var colorPicker = document.getElementById("colorPicker");
+            var colorCode = document.getElementById("colorCode");
+
+            // Khi chọn màu từ bộ chọn màu, cập nhật giá trị trong trường văn bản
+            colorPicker.addEventListener("input", function () {
+                colorCode.value = colorPicker.value;
+            });
+
+            // Khi nhập mã màu vào trường văn bản, cập nhật giá trị trong bộ chọn màu
+            colorCode.addEventListener("input", function () {
+                if (/^#[0-9A-F]{6}$/i.test(colorCode.value)) {
+                    colorPicker.value = colorCode.value;
+                }
+            });
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,10 @@
+﻿@model IEnumerable<TShop.Models.Size>
+
+<div class="shop__sidebar__size">
+    @foreach (var item in Model)
+    {
+        <label class="size__show" for="@item.SizeName" data-sizeid="@item.SizeId">
+            @item.SizeName
+        </label>
+    }
+</div>

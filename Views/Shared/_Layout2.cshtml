@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TShop</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link href="~/bootstrap-5.0.2-dist/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/TShop/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="~/TShop/css/elegant-icons.css" type="text/css">
+
+    <link rel="stylesheet" href="~/TShop/css/style.css" type="text/css">
+    <script src="~/TShop/js/jquery-3.3.1.min.js"></script>
+    <style>
+        a{
+            text-decoration:underline;
+            color:#111111;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #111111;
+        }
+        span{
+            font-weight:500;
+        }
+        .header__menu__bottom{
+            margin:0;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <!-- Thêm modal vào phần HTML của bạn -->
+            <div class="header__menu__bottom d-flex justify-content-between align-items-center py-4 sticky-top">
+                <div class="header__logo">
+                    <a href="/"><img src="~/TShop/img/logo.png" alt=""></a>
+                </div>
+                <a href="/">
+
+                    <h6>TIẾP TỤC MUA SẮM</h6>
+
+                </a>
+            </div>
+
+        <!-- Header Section End -->
+        <!--Toast -->
+        <div id="toast-container" class="position-fixed top-1 end-0 p-3" style="z-index: 1000;">
+        </div>
+
+        @RenderBody()
+
+    </div>
+
+    <!-- Js Plugins -->
+    <script src="~/bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
+    <script src="~/TShop/js/jquery.nice-select.min.js"></script>
+    <script src="~/TShop/js/jquery.nicescroll.min.js"></script>
+    <script src="~/TShop/js/jquery.magnific-popup.min.js"></script>
+
+    <script src="~/TShop/js/main10.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    @await Component.InvokeAsync("Notyf")
+</body>
+</html>

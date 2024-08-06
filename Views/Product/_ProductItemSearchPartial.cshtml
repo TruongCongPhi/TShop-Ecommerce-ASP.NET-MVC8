@@ -1,0 +1,15 @@
+﻿@model List<TShop.ViewModels.ProductVM>
+
+@foreach( var item in Model){
+    <li class="list-group-item border-0">
+        <a class="link-dark" asp-action="Detail" asp-controller="Product" asp-route-alias="@item.Alias">
+            <div class="d-flex pe-3">
+                <img src="@item.Variants.FirstOrDefault().Thumb" style="width:40px;min-width:40px;height:100%;" />
+                <div class="row w-100 ps-2">
+                    <div class="col-12 text-start text-truncate">@item.ProductName</div>
+                    <div class="col-12 fw-bolder">@item.ProductCode</div>
+                </div>
+            </div>
+        </a>
+    </li>
+}

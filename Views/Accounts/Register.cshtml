@@ -1,0 +1,65 @@
+﻿@model TShop.ViewModels.RegisterVM
+<div class="bg-light py-3 py-md-5">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-11 col-lg-8 col-xl-7 col-xxl-6">
+                <div class="bg-white p-4 p-md-5 rounded shadow-sm">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-5">
+                                <h3>Đăng nhập</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <form method="post">
+                        <!-- Email input -->
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="email" asp-for="Email" class="form-control" />
+                            <label class="form-label" asp-for="Email"></label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <!-- Password input -->
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="password" asp-for="Password" class="form-control" />
+                            <label class="form-label" asp-for="Password"></label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+
+                        </div>
+
+                        <!-- Repeat Password input -->
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="password" asp-for="ConfirmPassword" class="form-control" />
+                            <label class="form-label" asp-for="ConfirmPassword"></label>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <!-- Checkbox -->
+                        <div class="form-check d-flex justify-content-center mb-4">
+                            <input class="form-check-input me-2" type="checkbox" value="" id="registerCheck" checked
+                                   aria-describedby="registerCheckHelpText" />
+                            <label class="form-check-label" for="registerCheck">
+                                I have read and agree to the terms
+                            </label>
+                        </div>
+                        <!-- Submit button -->
+                        <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-3">Đăng ký</button>
+                        <div>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-12">
+                            <hr class="mt-5 mb-4 border-secondary-subtle">
+                            <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-end">
+                                <p>Đã có tài khoản? <a asp-controller="Accounts" asp-action="Login">Đăng nhập</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

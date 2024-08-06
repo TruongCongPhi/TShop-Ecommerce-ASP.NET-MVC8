@@ -1,0 +1,100 @@
+﻿@model IEnumerable<TShop.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Danh sách sản phẩm</h1>
+
+<div class="card">
+    <div class="card-header pb-0">
+        <div class="row flex-between-center pt-2">
+            <div class="col-sm-auto">
+                <input id="searchQuery" class="form-control form-control-sm" type="text" placeholder="Tìm kiếm..." />
+            </div>
+            <div class="col-sm-auto">
+                <a class="btn btn-sm btn-falcon-default  mb-3" asp-action="Create"><span class="fas fa-plus me-2"></span>Thêm sản phẩm</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-0">
+        <div id="tableExample2" data-list='{"valueNames":["index","name"],"page":20,"pagination":true}'>
+            <div class="table-responsive scrollbar">
+                <table class="table table-bordered table-striped fs--1 mb-0">
+                    <thead class="bg-200 text-900">
+                        <tr>
+                            <th class="sort" data-sort="image">Ảnh</th>
+                            <th class="sort" data-sort="name">Tên </th>
+                            <th class="sort" data-sort="">Mã</th>
+                            <th class="sort" data-sort="">Số lượng</th>
+                            <th class="sort" data-sort="">Giá</th>
+                            <th class="sort" data-sort="">Danh mục</th>
+                            <th class="sort" data-sort="">Ngày</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="list" id="productTableBody">
+                        @foreach (var item in Model) {
+                            <tr>
+                                <td class=""><img src="@item.Variants.Select(v => v.Thumb).First()" style="max-width: 80px;" /> </td>
+                                <td class="name">
+                                    <a class="text-900" asp-area="" asp-controller="Product" asp-action="Detail" asp-route-alias="@item.Alias">@Html.DisplayFor(modelItem => item.ProductName)</a>
+                                </td>
+                                <td class="">@Html.DisplayFor(modelItem => item.ProductCode)</td>
+                                <td class="">@((item.Stock > 0) ? item.Stock : "Hết hàng") </td>
+                                <td class="">@Html.DisplayFor(modelItem => item.Price) - @Html.DisplayFor(modelItem => item.Discount)</td>
+                                <td class="">@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
+                                <td class="">@Html.DisplayFor(modelItem => item.DateCreated)</td>
+
+                                <td>
+                                    <div class="dropdown font-sans-serif position-static">
+                                        <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" id="customer-dropdown-24" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
+                                        <div class="dropdown-menu dropdown-menu-end border py-0" aria-labelledby="customer-dropdown-24">
+                                            <div class="bg-white py-2">
+                                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.ProductId">Chỉnh sửa</a>
+                                                <a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@item.ProductId">Xóa</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                              }
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <button class="btn btn-sm btn-falcon-default me-1" type="button" title="Previous" data-list-pagination="prev">
+                    <span class="fas fa-chevron-left"></span>
+                </button>
+                <ul class="pagination mb-0"></ul>
+                <button class="btn btn-sm btn-falcon-default ms-1" type="button" title="Next" data-list-pagination="next">
+                    <span class="fas fa-chevron-right"> </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#searchQuery').on('input', function () {
+                var query = $(this).val();
+
+                $.ajax({
+                    url: '/admin/products/search',
+                    type: 'POST',
+                    data: { query: query },
+                    success: function (result) {
+                        $('#productTableBody').html(result); // Assuming your partial view renders the table rows
+                    },
+                    error: function () {
+                        alert('Đã xảy ra lỗi khi tải dữ liệu');
+                    }
+                });
+            });
+        });
+    </script>
+
+}

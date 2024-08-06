@@ -1,0 +1,242 @@
+﻿
+<nav class="navbar navbar-light navbar-vertical navbar-expand-xl">
+
+    <div class="d-flex align-items-center">
+        <div class="toggle-icon-wrapper">
+
+            <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+
+        </div><a class="navbar-brand" asp-action="index" asp-controller="home">
+            <div class="d-flex align-items-center py-3">
+                <img class="me-2" src="~/admin/assets/img/icons/spot-illustrations/falcon.png" alt="" width="40" /><span class="font-sans-serif">TShop</span>
+            </div>
+        </a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+        <div class="navbar-vertical-content scrollbar">
+            <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
+
+                <!-- tổng quan-->
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-action="Index" asp-controller="Home">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon"><span class="fas fa-home"></span></span><span class="nav-link-text ps-1">Cửa hàng</span>
+                        </div>
+                    </a>
+
+                </li>
+                <li class="nav-item">
+                    <!-- label-->
+                    <div class="row navbar-vertical-label-wrapper mt-3 mb-2">
+                        <div class="col-auto navbar-vertical-label">
+                            Quản lý
+                        </div>
+                        <div class="col ps-0">
+                            <hr class="mb-0 navbar-vertical-divider" />
+                        </div>
+                    </div>
+                </li>
+
+                <!-- tổng quan-->
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Index" asp-controller="Home">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon"><span class="fas fa-chart-pie"></span></span><span class="nav-link-text ps-1">Tổng quan</span>
+                        </div>
+                    </a>
+
+                </li>
+                <!-- Đơn hàng -->
+                <a class="nav-link dropdown-indicator" href="#order" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="order">
+                    <div class="d-flex align-items-center ">
+                        <span class="nav-link-icon">
+                            <span class="fas fa-shopping-bag"></span>
+                        </span>
+                        <span class="nav-link-text ps-1 position-relative">
+                            Đơn hàng
+                            @await Component.InvokeAsync("NewOrderNumber")
+                        </span>
+                    </div>
+                </a>
+                <ul class="nav collapse" id="order">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="index" asp-controller="orders" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-text ps-1">Danh sách đơn hàng</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Index" asp-route-status="pending" asp-controller="orders" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-text ps-1">Đơn hàng mới</span>
+                            </div>
+                        </a>
+                    </li>
+
+
+                </ul>
+
+                <!-- Sản phẩm -->
+                <a class="nav-link dropdown-indicator" href="#product" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="product">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-icon"><span class="fas fa-bread-slice"></span></span><span class="nav-link-text ps-1">Sản phẩm</span>
+                    </div>
+                </a>
+                <ul class="nav collapse" id="product">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Index" asp-controller="categories" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-text ps-1">Danh mục sản phẩm</span>
+                            </div>
+                        </a>
+                        <!-- more inner pages-->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Index" asp-controller="products" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-text ps-1">Danh sách sản phẩm</span>
+                            </div>
+                        </a>
+                        <!-- more inner pages-->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="create" asp-controller="products" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-text ps-1">Thêm mới sản phẩm</span>
+                            </div>
+                        </a>
+                        <!-- more inner pages-->
+                    </li>
+
+                </ul>
+
+
+                <!-- Thuộc tính -->
+                <a class="nav-link dropdown-indicator" href="#attribute" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="attribute">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-icon"><span class="fas fa-palette"></span></span><span class="nav-link-text ps-1">Thuộc tính</span>
+                    </div>
+                </a>
+                <!-- more inner pages-->
+                <ul class="nav collapse false" id="attribute">
+
+                    <li class="nav-item">
+                        <a class="nav-link dropdown-indicator" href="#color" data-bs-toggle="collapse" aria-expanded="false" aria-controls="level-four">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-text ps-1">Màu sắc</span>
+                            </div>
+                        </a>
+                        <!-- more inner pages-->
+                        <!-- more inner pages-->
+                        <ul class="nav collapse false" id="color">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Colors" asp-action="Index" aria-expanded="false">
+                                    <div class="d-flex align-items-center">
+                                        <span class="nav-link-text ps-1">Danh sách màu</span>
+                                    </div>
+                                </a>
+                                <!-- more inner pages-->
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Colors" asp-action="Create" aria-expanded="false">
+                                    <div class="d-flex align-items-center">
+                                        <span class="nav-link-text ps-1">Thêm mới màu</span>
+                                    </div>
+                                </a>
+                                <!-- more inner pages-->
+                            </li>
+                        </ul>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link dropdown-indicator" href="#size" data-bs-toggle="collapse" aria-expanded="false" aria-controls="level-four">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-text ps-1">Kích thước</span>
+                            </div>
+                        </a>
+
+                        <!-- more inner pages-->
+                        <ul class="nav collapse false" id="size">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Sizes" asp-action="Index" aria-expanded="false">
+                                    <div class="d-flex align-items-center">
+                                        <span class="nav-link-text ps-1">Danh sách kích thước</span>
+                                    </div>
+                                </a>
+                                <!-- more inner pages-->
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Sizes" asp-action="Create" aria-expanded="false">
+                                    <div class="d-flex align-items-center">
+                                        <span class="nav-link-text ps-1">Thêm mới kích thước</span>
+                                    </div>
+                                </a>
+                                <!-- more inner pages-->
+                            </li>
+                        </ul>
+
+                    </li>
+                </ul>
+
+                <!-- Blogs -->
+                <a class="nav-link dropdown-indicator" href="#blog" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="blog">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-icon"><span class="fas fa-edit"></span></span><span class="nav-link-text ps-1">Tin tức</span>
+                    </div>
+                </a>
+                <ul class="nav collapse" id="blog">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Index" asp-controller="blogcategories" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-text ps-1">Danh mục tin tức</span>
+                            </div>
+                        </a>
+                        <!-- more inner pages-->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="index" asp-controller="blogs" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-text ps-1">Danh sách tin tức</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="create" asp-controller="blogs" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-text ps-1">Viết tin mới</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Tài khoản -->
+                <a class="nav-link dropdown-indicator" href="#account" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="account">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-icon"><span class="fas fa-user"></span></span><span class="nav-link-text ps-1">Tài khoản</span>
+                    </div>
+                </a>
+                <ul class="nav collapse" id="account">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Index" asp-controller="Accounts" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-text ps-1">Danh sách tài khoản</span>
+                            </div>
+                        </a>
+                        <!-- more inner pages-->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="create" asp-controller="Accounts" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-text ps-1">Thêm mới tài khoản</span>
+                            </div>
+                        </a>
+                    </li>
+
+                </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+

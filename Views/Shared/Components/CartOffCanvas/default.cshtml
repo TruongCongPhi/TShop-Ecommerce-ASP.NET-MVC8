@@ -1,0 +1,149 @@
+﻿@model List<TShop.ViewModels.CartItemVM>
+@{
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+
+}
+
+<div class="offcanvas-header border-bottom">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">Giỏ hàng</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+</div>
+<div class="offcanvas-body">
+    @if (Model.Count == 0)
+    {
+        <div>Không có sản phẩm nào trong giỏ hàng</div>
+    }
+    else
+    {
+        @foreach (var item in Model)
+        {
+            <div class="cart-body">
+                <div class="row cart-item">
+                    <div class="col-3">
+
+                        <div class="cart-item-photo">
+                            <a asp-controller="Product" asp-action="Detail" asp-route-alias="@item.Product.Alias">
+                                <img src="@item.Thumb" />
+                            </a>
+                            <button class="cart-item-remove set-bg" data-setbg="~/../../../TShop/img/icon/remove.svg"></button>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="cart-item-detail">
+
+                            <span class="cart-item-name">
+                                <a asp-controller="Product" asp-action="Detail" asp-route-alias="@item.Product.Alias">
+                                    @item.Product.ProductName
+                                </a>
+                            </span>
+                            <div class="cart-item-options">
+                                <div style="background:@item.Color.ColorHex" class="cart-item-color">
+                                </div>
+                                <span style="border-right:1px solid #242424; padding-right:5px">@item.Color.ColorName</span>
+                                <span style="margin-left:5px">@item.Size</span>
+                            </div>
+                            <div class="cart-item-bottom">
+                                <div class="cart-item-price">
+                                    @if (item.Product.Discount != null)
+                                    {
+                                        <div class="price-base">
+                                            <div class="">@item.Product.Price.ToString("#,0 ₫", culture.NumberFormat)</div>
+                                            <span>-@((int)((item.Product.Price - item.Product.Discount) / (double)item.Product.Price * 100))%</span>
+                                        </div>
+                                        <div class="price-main">@item.Product.Discount?.ToString("#,0 ₫", culture.NumberFormat)</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="price-main">@item.Product.Price.ToString("#,0 ₫", culture.NumberFormat)</div>
+
+                                    }
+                                </div>
+                                <div class="cart-item-quantity">
+
+                                    <div class="pro-qty" data-productid="@item.Product.ProductId" data-colorid="@item.Color.ColorId" data-size="@item.Size">
+                                        <span class="dec qtybtn">-</span>
+                                        <input type="text" value="@item.Amount" />
+                                        <span class="inc qtybtn">+</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        }
+    }
+</div>
+@{
+    int totalPriceBase = 0;
+    int totalDiscount = 0;
+    int totalPriceMain = 0;
+
+    foreach (var item in Model)
+    {
+        totalPriceBase += item.Amount * item.Product.Price;
+        totalDiscount += (item.Product.Discount.HasValue && item.Product.Discount > 0) ? item.Amount * (item.Product.Price - item.Product.Discount.Value) : 0;
+        totalPriceMain += (item.Product.Discount.HasValue && item.Product.Discount > 0) ? item.Amount * item.Product.Discount.Value : item.Amount * item.Product.Price;
+
+    }
+}
+@if (Model.Count > 0)
+{
+    <div class="offcanvas-footer">
+        <div class="cart-item-footer">
+            <div class="accordion border-0" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item border-0 border-top">
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse border-0 collapse" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body border-0  px-3 pt-2 pb-0">
+                            <div class="row justify-content-between">
+                                <div class="col-6 ">Giá trị đơn hàng</div>
+                                <div class="col-6 text-end total-price-base">@totalPriceBase.ToString("#,0 ₫", culture.NumberFormat)</div>
+                                <div class="col-6 ">Chiết khấu</div>
+                                <div class="col-6 text-end total-discount">-@totalDiscount.ToString("#,0 ₫", culture.NumberFormat)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-header" id="panelsStayOpen-headingOne">
+                        <div class="collapsed accordion-title bg-body px-3 pt-2 pb-3" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            <div class="cart-price-total">
+                                <h5>
+                                    Tạm tính
+                                </h5>
+                                <div class="price-total-temp">
+                                   
+                                    <div class="d-flex justify-content-end align-items-center">
+                                        <span class="btn-accordion me-1"></span>
+                                        <div class="total-price-main">
+                                        @totalPriceMain.ToString("#,0 ₫", culture.NumberFormat)
+                                    </div>
+                                    </div>
+                                    <div class="total-discount-main">(tiết kiệm @totalDiscount.ToString("#,0 ₫", culture.NumberFormat))</div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+     
+                <div class="text-center mb-4">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="" asp-controller="checkout" asp-action="index"> <div class="btn__add">Thanh toán</div></a>
+                }
+                else
+                {
+                    <a class="" asp-controller="accounts" asp-action="login"> <div class="btn__add  mx-3">Thanh toán</div></a>
+
+                }
+                </div>
+        
+
+        </div>
+    </div>
+}

@@ -1,0 +1,331 @@
+﻿@model TShop.ViewModels.ProductDetailVM
+@{
+    ViewData["Title"] = Model.Product.ProductName;
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+    var typeCat = ViewBag.TypeCategory;
+    var category = ViewBag.Category;
+}
+
+<style>
+
+</style>
+<section class="shop-details">
+    <div class="block-page">
+        <div class="row col-12 mt-3">
+            <div class="breadcrumb__option">
+                <a href="/">Trang chủ</a>
+                <a asp-controller="Product" asp-action="ProductCategory" asp-route-category="@category.Alias">@category.CategoryName</a>
+                <a asp-controller="Product" asp-action="ProductTypeCategory" asp-route-category="@category.Alias" asp-route-typecategory="@typeCat.Alias">@typeCat.CategoryName</a>
+                <span>@Model.Product.ProductName</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 px-3">
+                <!-- Swiper -->
+                <div class="row">
+                    <div class="col-md-12 px-3 py-2">
+                        <div class="swiper swiper_large_preview">
+                            <div class="swiper-wrapper">
+
+                                @foreach (var var in Model.Variants)
+                                {
+                                    @foreach (var img in var.productImages)
+                                    {
+                                        <div class="swiper-slide">
+                                            <div class="zoom_img">
+                                                <img class="img-fluid" src="@img.ImageUrl" />
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 px-3 py-2">
+                        <div thumbsSlider="" class="swiper swiper_thumb">
+                            <div class="swiper-wrapper">
+                                @foreach (var var in Model.Variants)
+                                {
+                                    @foreach (var img in var.productImages)
+                                    {
+                                        <div class="swiper-slide">
+                                            <div class="zoom_img">
+                                                <img class="img-fluid" src="@img.ImageUrl" />
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 px-3">
+
+                <div class="product__details__text pt-2">
+                    <h4 class="fs-3">@Model.Product.ProductName</h4>
+                    <div class="mb-3"><span>Mã sản phẩm:</span><span class="product__code"> @Model.Product.ProductCode</span></div>
+                    @* <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                        <span> - 4 sao</span>
+                    </div> *@
+                    @{
+                        if (Model.Product.Discount != null)
+                        {
+                                <span class="price__after">@Model.Product.Discount?.ToString("#,0 ₫", culture.NumberFormat)</span>
+                                <div class="d-flex align-items-center">
+                                    <div class="price__before">@Model.Product.Price.ToString("#,0 ₫", culture.NumberFormat)</div>
+                                    <span class="text-danger"> -@((int)((Model.Product.Price - Model.Product.Discount) / (double)Model.Product.Price * 100))%</span>
+                                </div>
+                        }
+                        else
+                        {
+                                <span class="price__after">@Model.Product.Price.ToString("#,0 ₫", culture.NumberFormat)</span>
+                        }
+                    }
+                    
+                    <div class="product__details__option mt-3">
+                        <div class="mb-1">Màu sắc: <span class="color-name fw-bold"></span></div>
+                        <div class="product__details__option__color">
+                            @foreach (var variant in Model.Variants)
+                            {
+                                <div class="color__form" data-color-id="@variant.ColorId" data-color-name="@variant.ColorName">
+                                    <div style="background: @variant.ColorHex;" class="color" data-main-image-url="@variant.Thumb"></div>
+                                </div>
+                            }
+
+                        </div>
+                        <div class="mt-2">Kích cỡ: <span class="size-name fw-bold"></span></div>
+                        <div class="product__details__option__size" data-variant='@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Variants.Select(v => new
+                            {
+                                v.ColorId,
+                                VariantDetails = v.VariantDetails.Select(vd => new
+                                {
+                                    vd.VariantDetailId,
+                                    vd.SizeName,
+                                    vd.Quantity
+                                })
+                            })))' >
+                        </div>
+
+                    </div>
+                    <div class="product__details__cart__option">
+                        <button href="#" class="btn__add">Thêm vào giỏ</button>
+                    </div>
+                    <h4>
+                         Mô tả
+                    </h4>
+                    <div>@Html.Raw(Model.Product.Description)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="product__details__content">
+        <div class="container ">
+
+            <div class="row ">
+                <div class="col-lg-12">
+                    <div class="product__details__tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                           
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-6" role="tab" style="background-color:#fafafa">
+                                    Đánh giá(@Model.ProductCommentVM.Count())
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-7" role="tab" style="background-color:#fafafa">
+                                    ...
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            
+                            <div class="tab-pane active" id="tabs-6" role="tabpanel">
+                                <div class="customer-review-option">
+                                    <h4>@Model.ProductCommentVM.Count() bình luận</h4>
+                                    <div class="comment-option">
+                                       
+                                        @foreach(var item in Model.ProductCommentVM)
+                                        {
+                                            <div class="co-item">
+                                                <div class="avatar-pic">
+                                                    <img src="~/TShop/img/icon/user.svg" alt="">
+                                                </div>
+                                                <div class="avatar-text">
+                                                    <h5>@item.UserName <span>@item.CreateAt.Value.ToString("dd/mm/yyyy HH:mm") </span></h5>
+                                                    <div class="at-reply">@item.Content</div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    
+                                    <div class="leave-comment">
+                                        <form method="post" asp-action="Comment" class="comment-form">
+                                            <input type="hidden" name="alias" value="@Model.Product.Alias"/>
+                                            <input type="hidden" name="ProductId" value="@Model.Product.ProductId" />
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <textarea placeholder="Bình luận" name="Content" @((User.Identity.IsAuthenticated) ? "" : "disabled")></textarea>
+                                                </div>
+
+                                            </div>
+                                            <div class="text-center mb-5">
+                                  
+                                                    <button type="submit" class="btn btn-secondary" id="btn-comment" @((User.Identity.IsAuthenticated) ? "" : "disabled") > Bình luận </ button >
+                                  
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabs-7" role="tabpanel">
+                                <div class="product__details__tab__content">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block-page">
+        <div class="fs-3 mb-3 fw-bold">Gợi ý</div>
+        <div class="product-slider-container">
+            <div class="product-slider-4 product-slider owl-carousel">
+                @await Html.PartialAsync("ProductItem", Model.RecommendedProducts)
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- Related Section Begin -->
+<!-- Related Section End -->
+@section Scripts {
+    <script>
+        var swiper = new Swiper(".swiper_thumb", {
+            spaceBetween: 10,
+            slidesPerView: 4,
+            speed: 300,
+            loop: false,
+            freeMode: false,
+            watchSlidesProgress: true,
+            ClickAble: true,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+        var swiper2 = new Swiper(".swiper_large_preview", {
+            spaceBetween: 10,
+            slidesPerView: 1,
+            // speed: 300,
+            speed: 300,
+            loop: true,
+            freeMode: false,
+
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            thumbs: {
+                swiper: swiper,
+            },
+        });
+
+        $(document).ready(function () {
+            $('.product__details__option__color .color__form').click(function () {
+                var colorId = $(this).data('color-id');
+                $('.color-name').html($(this).data('color-name'));
+
+                // Lấy dữ liệu từ data-variant
+                var variants = $(".product__details__option__size").data('variant');
+                console.log(variants);
+
+                // hiển thị size theo color
+                var htmlSize = "";
+                variants.forEach(variant => {
+                    if (variant.ColorId === colorId) {
+                        variant.VariantDetails.forEach(vd => {
+                            htmlSize += `<div class="size ${vd.Quantity === 0 ? "out__of__stock" : ""}" data-variant-detail-id="${vd.VariantDetailId}">${vd.SizeName}</div>`;
+                        });
+                    }
+                });
+                $(".product__details__option__size").html(htmlSize);
+
+                $(this).siblings().removeClass('selected');
+                $(this).addClass('selected');
+
+                var variantDetailId = 0;
+
+                // size được chọn
+                $('.product__details__option__size .size').click(function () {
+                    if ($(this).hasClass('out__of__stock')) {
+                        return;
+                    };
+
+                    $(this).siblings().removeClass('selected');
+                    $(this).addClass('selected');
+                    $('.size-name').html($(this).text());
+                    
+                    variantDetailId = $(this).data("variant-detail-id");
+                    
+                    
+                });
+                $('.product__details__cart__option .btn__add').click(function () {
+                    if (variantDetailId > 0) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/add/cart",
+                            data: {
+                                variantDetailId: variantDetailId
+                            },
+                            success: function (result) {
+                                $.ajax({
+                                    url: '/api/cart/count',
+                                    type: "GET",
+                                    success: function (result) {
+                                        if (result.success) {
+                                            $('.number-cart').html(result.count);
+                                        };
+                                        showToast("Đã thêm sản phẩm vào giỏ hàng",'success');
+
+                                    }
+                                });
+                                $('#offcanvasCart').html(result);
+
+                                $.when(
+                                    $.getScript('/tshop/js/product.js'),
+                                    $.getScript('/tshop/js/main.js'),
+                                );
+
+                            }
+                        });
+                    } else {
+                        alert("Vui lòng chọn size");
+                    }
+                });
+
+            });
+
+          
+
+
+            $('.product__details__option__color').each(function () {
+                var firstColor = $(this).find('.color').first();
+                firstColor.trigger('click');
+            });
+        });
+
+
+    </script>
+}

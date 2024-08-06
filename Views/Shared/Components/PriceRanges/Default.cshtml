@@ -1,0 +1,25 @@
+﻿@model (int MinPrice, int MaxPrice)
+<div class="range-price-form">
+    <div class="price-input">
+        <div class="field">
+            <input type="number" class="input-min" value="@Model.MinPrice">
+        </div>
+        <div class="separator">-</div>
+        <div class="field">
+            <input type="number" class="input-max" value="@Model.MaxPrice">
+        </div>
+    </div>
+    <div class="slider__price">
+        <div class="progress__price"></div>
+        <div class="price-labels">
+
+            <span class="price-label-min">@Model.MinPrice</span>
+
+            <span class="price-label-max">@Model.MaxPrice</span>
+        </div>
+    </div>
+    <div class="range-input">
+        <input type="range" class="range-min" min="@Model.MinPrice" max="@Model.MaxPrice" value="@Model.MinPrice" step="1000">
+        <input type="range" class="range-max" min="@Model.MinPrice" max="@Model.MaxPrice" value="@Model.MaxPrice" step="1000">
+    </div>
+</div>

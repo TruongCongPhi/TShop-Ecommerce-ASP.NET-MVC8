@@ -1,0 +1,67 @@
+﻿@model TShop.Models.Category
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Thêm danh mục</h1>
+<div>
+    <a asp-action="Index">Trở về danh sách</a>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ParentId" class="form-control"  />
+            <input type="hidden" asp-for="Levels" class="form-control"  />
+
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryName" class="control-label"></label>
+                <input asp-for="CategoryName" class="form-control" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Alias" class="control-label"></label>
+                <input asp-for="Alias" class="form-control" />
+                <span asp-validation-for="Alias" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Danh mục cha</label>
+                <input class="form-control" value=" @((ViewBag.catParent != null) ? ViewBag.catParent + " /" :"" ) @ViewBag.ParentName" disabled />
+            </div>
+        
+            <div class="form-group">
+                <label asp-for="Ordering" class="control-label"></label>
+                <input asp-for="Ordering" class="form-control" />
+                <span asp-validation-for="Ordering" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Thumb" class="control-label"></label>
+                <input asp-for="Thumb" class="form-control" />
+                <span asp-validation-for="Thumb" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

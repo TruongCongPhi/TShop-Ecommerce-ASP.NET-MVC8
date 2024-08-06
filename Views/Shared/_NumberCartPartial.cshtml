@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Newtonsoft.Json
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+@{
+    var session = HttpContextAccessor.HttpContext.Session;
+    string jsoncart = session.GetString("Cart");
+    if (jsoncart != null) {
+        var cart = JsonConvert.DeserializeObject<List<CartItem>> (jsoncart);
+        <div>
+            <img src="~/TShop/img/icon/cart.png" width="23px" alt="">
+            <span id="number-cart">@cart.Count</span>
+
+        </div>
+        <p>Giỏ hàng</p>
+    }
+    else
+    {
+        <div>
+            <img src="~/TShop/img/icon/cart.png" width="23px" alt="">
+            <span class="number-cart">0</span>
+        </div>
+        <p>Giỏ hàng</p>
+    }
+}

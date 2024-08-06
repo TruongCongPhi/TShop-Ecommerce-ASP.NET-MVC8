@@ -1,0 +1,50 @@
+﻿@model TShop.Models.Color
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Thêm mới màu sắc</h1>
+<div>
+    <a asp-action="Index">Danh sách màu sắc</a>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ColorName" class="control-label"></label>
+                <input asp-for="ColorName" class="form-control" />
+                <span asp-validation-for="ColorName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ColorId" class="control-label">Phân cấp</label>
+                <select asp-for="ParentId" class="form-control" asp-items="ViewBag.ColorId">
+                    <option value="">chọn</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Levels" class="control-label"></label>
+                <input asp-for="Levels" class="form-control" />
+                <span asp-validation-for="Levels" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ColorHex" class="control-label"></label>
+                <input asp-for="ColorHex" class="form-control" />
+                <span asp-validation-for="ColorHex" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

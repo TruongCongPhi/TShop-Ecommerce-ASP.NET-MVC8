@@ -1,0 +1,38 @@
+﻿@model IEnumerable<TShop.Models.Blog>
+
+@if (Model.Count() > 0)
+{
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="title">
+                <a class="text-900" asp-area="" asp-controller="Blog" asp-action="Detail" asp-route-id="@item.BlogId">@item.Title</a>
+            </td>
+            <td class="date">
+                @item.DateCreated.ToString("dd/MM/yyyy")
+            </td>
+            <td class="name text-900">
+                @item.Account.FullName
+            </td>
+            <td class="category">
+                @Html.DisplayFor(modelItem => item.BlogCategory.CategoryName)
+            </td>
+
+            <td>
+                <div class="dropdown font-sans-serif position-static">
+                    <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" id="customer-dropdown-24" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
+                    <div class="dropdown-menu dropdown-menu-end border py-0" aria-labelledby="customer-dropdown-24">
+                        <div class="bg-white py-2">
+                            <a class="dropdown-item" asp-controller="Blogs" asp-action="Edit" asp-route-id="@item.BlogId">Chỉnh sửa</a>
+                            <a class="dropdown-item text-danger modal-delete" data-blogid="@item.BlogId">Xóa</a>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+}
+else
+{
+    <td>Không có bài viết nào</td>
+}

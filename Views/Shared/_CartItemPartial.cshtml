@@ -1,0 +1,54 @@
+﻿@model List<TShop.ViewModels.CartItemVM>
+
+@if (Model.Count == 0)
+{
+    <div>Không có sản phẩm nào trong giỏ hàng</div>
+}
+else
+{
+    @foreach (var item in Model)
+    {
+        <div class="cart-body">
+            <div class="row cart-item">
+                <div class="col-3">
+                    <div class="cart-item-photo">
+                        <img src="@item.Thumb" />
+                        <button class="cart-item-remove set-bg" data-setbg="~/TShop/img/icon/remove.svg">x</button>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="cart-item-detail">
+                        <div class="cart-item-name">
+                            @item.Product.ProductName
+                        </div>
+                        <div class="cart-item-options">
+                            <div class="color_show">
+                                @item.Color.ColorName
+                            </div>
+                            <span style="border-right:1px solid #242424; padding-right:5px">Màu</span>
+                            <span style="margin-left:5px">@item.Size</span>
+                        </div>
+                        <div class="cart-item-bottom">
+                            <div class="cart-item-price">
+                                <div class="price-base">
+                                    <div class="">@item.Product.Price</div>
+                                    <span>-47%</span>
+                                </div>
+                                <div class="price-main">@item.Product.Discount</div>
+                            </div>
+                            <div class="cart-item-quantity">
+
+                                <div class="pro-qty">
+                                    <input type="text" value="@item.Amount">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    }
+}

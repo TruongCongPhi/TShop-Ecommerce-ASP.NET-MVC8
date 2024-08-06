@@ -1,0 +1,90 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<!-- Shop Section Begin -->
+<section class="shop mt-4">
+    <div class="block-product ">
+        @RenderSection("Breadcrumb", required: false)
+        <div class="d-flex ">
+            <div class="col-lg-3 pe-4">
+                <div class="shop__sidebar">
+                    <div class="shop__sidebar__accordion">
+                        <div class="accordion" id="accordionExample">
+                            @RenderSection("TypeCategories", required: false)
+                            <div class="card bg-0">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseFour">Kích thước</a>
+                                </div>
+                                <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        
+                                        @RenderSection("Sizes", required: false)
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            
+                            <div class="card bg-0">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseFive">Màu sắc</a>
+                                </div>
+                                <div id="collapseFive" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        
+                                        @RenderSection("ColorGroups", required: false)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card bg-0">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseThree">Khoảng giá</a>
+                                </div>
+                                <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        @RenderSection("PriceRanges", required: false)
+                                            
+                                    </div>
+                             
+                                </div>
+                            </div>
+                            @* <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseSix">Tags</a>
+                                </div>
+                                <div id="collapseSix" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__tags">
+                                            <a href="#">Product</a>
+                                            <a href="#">Bags</a>
+                                            <a href="#">Shoes</a>
+                                            <a href="#">Fashio</a>
+                                            <a href="#">Clothing</a>
+                                            <a href="#">Hats</a>
+                                            <a href="#">Accessories</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="shop__product__option">
+                    @RenderSection("ProductOptions", required: false)
+
+                </div>
+                <div class="grid-container-3 grid-container">
+                    @RenderBody()
+                </div>
+                @RenderSection("ButtonLoads", required: false)
+               
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shop Section End -->
+@section Scripts {
+@await RenderSectionAsync("Scripts", required: false)
+}

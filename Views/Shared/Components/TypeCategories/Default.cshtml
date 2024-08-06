@@ -1,0 +1,21 @@
+﻿@model IEnumerable<TShop.ViewModels.TypeCategoryVM>
+
+<div class="card bg-0">
+    <div class="card-heading">
+        <a data-toggle="collapse" data-target="#collapseOne">Danh mục</a>
+    </div>
+    <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+        <div class="card-body">
+            <div class="shop__sidebar__categories">
+                
+                <ul @* class="nice-scroll" *@>
+                    @foreach ( var item in Model)
+                    {
+                        <li><a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="@item.CategoryAlias" asp-route-typecategory="@item.Alias"> @item.TypeCategoryName (@item.Count)</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>

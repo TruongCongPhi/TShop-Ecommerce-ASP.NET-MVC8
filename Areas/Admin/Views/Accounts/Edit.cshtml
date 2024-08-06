@@ -1,0 +1,115 @@
+﻿@model TShop.Models.Account
+
+<h4>Thông tin tài khoản</h4>
+<hr />
+<div class="card mb-3">
+    <form asp-action="Edit" asp-controller="Accounts" method="post">
+        <div class="card-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h5 class="mb-0">Chi tiết</h5>
+                </div>
+            </div>
+        </div>
+        <div class="card-body bg-light border-top">
+            <input type="hidden" asp-for="AccountId" />
+
+            <div class="row">
+                <div class="col-lg col-xxl-5">
+                    <div class="row mb-2">
+                        <div class="col-5 col-sm-4">
+                            <p class="fw-semi-bold mb-1">Tên</p>
+                        </div>
+                        <input class="form-control col" asp-for="FullName" />
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-sm-4">
+                            <p class="fw-semi-bold mb-1">Số điện thoại</p>
+                        </div>
+                        <input class="form-control col" asp-for="Phone" />
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-sm-4">
+                            <p class="fw-semi-bold mb-1">Email</p>
+                        </div>
+                        <input class="form-control col" asp-for="Email" />
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-sm-4">
+                            <p class="fw-semi-bold mb-1">Ngày sinh</p>
+                        </div>
+                        <input class="form-control col" asp-for="Birthday" />
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-sm-4">
+                            <p class="fw-semi-bold mb-1">Địa chỉ</p>
+                        </div>
+                        <input class="form-control col" asp-for="Address" />
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-sm-4">
+                            <p class="fw-semi-bold mb-1">Phường / Xã</p>
+                        </div>
+                        <input class="form-control col" asp-for="Ward" />
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-sm-4">
+                            <p class="fw-semi-bold mb-1">Quận / Huyện</p>
+                        </div>
+                        <input class="form-control col" asp-for="District" />
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-sm-4">
+                            <p class="fw-semi-bold mb-1">Tỉnh / Thành  phố</p>
+                        </div>
+                        <select class="form-select form-select-sm col" asp-for="LocationId" asp-items="ViewBag.LocationId"></select>
+                    </div>
+                </div>
+                <div class="col-lg col-xxl-5 mt-4 mt-lg-0 offset-xxl-1">
+                    <div class="row mb-2">
+                        <div class="col-5 col-sm-4">
+                            <p class="fw-semi-bold mb-1">Trạng thái</p>
+                        </div>
+                        <div class="row mb-2 col">
+                            <div class="col-sm-6">
+                                <div class=" form-check">
+                                    @Html.RadioButtonFor(model => model.Active, true, new { @class = "form-check-input", id = "statusDisplay" })
+                                    <label class="form-label mb-0"> <strong>Hoạt động</strong></label>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class=" form-check">
+                                    @Html.RadioButtonFor(model => model.Active, false, new { @class = "form-check-input", id = "statusHide" })
+                                    <label class="form-label mb-0"> <strong>Khóa</strong></label>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Active" class="text-danger fs--1"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-sm-4">
+                            <p class="fw-semi-bold mb-1">Quyền</p>
+                        </div>
+                        <select class="form-select form-select-sm col" asp-for="RoleId" asp-items="ViewBag.RoleId"></select>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-sm-4">
+                            <p class="fw-semi-bold mb-1">Ngày tạo</p>
+                        </div>
+                        <input asp-for="CreateAt" class="form-control form-control-sm col" />
+                        <span asp-validation-for="CreateAt" class="text-danger"></span>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-sm-4">
+                            <p class="fw-semi-bold mb-1">Lần đăng nhập cuối</p>
+                        </div>
+                        <input asp-for="LastLogin" class="form-control form-control-sm col" />
+                        <span asp-validation-for="LastLogin" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer border-top text-end"><button type="submit" class="btn btn-falcon-default btn-sm ms-2"><span class="fas fa-check fs--2 me-1"></span>Cập nhật</button></div>
+    </form>
+</div>

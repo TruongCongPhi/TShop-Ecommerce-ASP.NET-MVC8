@@ -1,0 +1,68 @@
+﻿@model TShop.Areas.Admin.Controllers.ProductsController.VariantViewModel
+
+<div class="accordion border-x border-top rounded" id="accordionFaq">
+    @foreach (var color in Model.Colors)
+    {
+        <input type="hidden" name="Colors[]" value="@color.ColorId" />
+        <div class="card shadow-none border-bottom rounded-bottom-0">
+            <div class="card-header p-0">
+                <button type="button" class="accordion-button btn btn-link text-decoration-none d-block w-100 py-2 px-3 collapsed border-0 text-start"
+                        data-bs-toggle="collapse" data-bs-target="#collapseColor-@color.ColorId" aria-expanded="false"
+                        aria-controls="collapseColor-@color.ColorId">
+                    <span class="fas fa-caret-right accordion-icon me-3" data-fa-transform="shrink-2"></span>
+                    <span class="badge me-1 py-2 px-3" style="background-color:@color.ColorHex">@color.ColorName</span>
+                </button>
+            </div>
+            <div class="collapse bg-light" id="collapseColor-@color.ColorId" data-parent="#accordionFaq">
+                <div class="card-body">
+                    <div class="table-responsive mb-3">
+                        <table class="table table-sm table-bordered mt-3 bg-white dark__bg-1100">
+                            <thead>
+                                <tr>
+                                    <th class="pe-1 text-center align-middle white-space-nowrap">Kích thước</th>
+                                    <th class="pe-1 text-center align-middle white-space-nowrap">Số lượng</th>
+                                    <th class="align-middle"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var size in Model.Sizes)
+                                {
+                                    <tr class="btn-reveal-trigger">
+                                        <td class="align-middle py-2">
+                                            <input class="form-control form-control-sm" type="text"  value="@size.SizeName" readonly />
+                                            <input type="hidden" name="Sizes[@color.ColorId][]" value="@size.SizeId" />
+                                        </td>
+                                        <td class="align-middle py-2">
+                                            <input class="form-control form-control-sm" name="Stocks[@color.ColorId][]" type="number" placeholder="0" />
+                                        </td>
+                                        <td class="text-center align-middle white-space-nowrap py-2 pe-1">
+                                            <button class="btn btn-link btn-sm" onclick="removeSizeRow(this)">
+                                                <span class="fas fa-times-circle text-danger" data-fa-transform="shrink-2" ></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 mb-2">
+                            <!-- upload image -->
+                            <div class="form-group" id="form-upload">
+                                <label class="control-label">Chọn ảnh đại diện cho sản phẩm <span class="text-danger">*</span></label>
+                                <input class="form-control form-control-sm" id="formFile" type="file" name="MainImages-@color.ColorId" />
+                                <div class="mt-2" id="uploaded_image"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="form-group">
+                                <label class="control-label">Chọn ảnh mô tả cho sản phẩm <span class="text-danger">*</span></label>
+                                <input class="form-control form-control-sm" type="file" multiple="multiple" name="VariantImages-@color.ColorId">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

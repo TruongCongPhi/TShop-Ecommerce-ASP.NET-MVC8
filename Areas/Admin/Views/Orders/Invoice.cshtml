@@ -1,0 +1,177 @@
+﻿@model TShop.ViewModels.OrderDetailVM
+@{
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-md">
+                <h5 class="mb-2 mb-md-0">Hóa đơn #@Model.Order.OrderId</h5>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-falcon-default btn-sm me-1 mb-2 mb-sm-0 btn_print" type="button"><span class="fas fa-arrow-down me-1"> </span>Tải xuống (.pdf)</button>
+                <button class="btn btn-falcon-success btn-sm mb-2 mb-sm-0" type="button"><span class="fas fa-dollar-sign me-1"></span>Nhận thanh toán</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div></div>
+<div class="card mb-3" id="invoice_bill">
+    <div class="border">
+        <div class="card-body">
+            <div class="row align-items-center text-center mb-3">
+                <div class="col-sm-6 text-sm-start"><img src="~/TShop/img/favicons/android-chrome-192x192.png" alt="invoice" width="150" /></div>
+                <div class="col text-sm-end mt-3 mt-sm-0">
+                    <h2 class="mb-3">Hóa đơn</h2>
+                    <p class="fs--1 mb-0">20 HTM, Mai Dịch<br />Cầu Giấy, Hà Nội</p>
+                </div>
+                <div class="col-12">
+                    <hr />
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col">
+                    <h6 class="text-500">Hóa đơn cho</h6>
+                    <h5>@Model.Order.Account.FullName</h5>
+                    <p class="fs--1">@Model.Order.Address<br />@Model.Order.Ward, @Model.Order.District, @Model.Order.City
+                    <p class="fs--1"><a href="#">@Model.Order.Account.Email</a><br /><a href="#">@Model.Order.Account.Phone</a></p>
+                </div>
+                <div class="col-sm-auto ms-auto">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-borderless fs--1">
+                            <tbody>
+                                <tr>
+                                    <th class="text-sm-end">Hóa đơn số:</th>
+                                    <td>@Model.Order.OrderId</td>
+                                </tr>
+                                @* <tr>
+                                <th class="text-sm-end">Order Number:</th>
+                                <td>AD20294</td>
+                                </tr> *@
+                                <tr>
+                                    <th class="text-sm-end">Ngày lập:</th>
+                                    <td>@DateTime.Now.ToString("dd-MM-yyyy")</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-sm-end">Đến hạn thanh toán:</th>
+                                    <td>Khi nhận được</td>
+                                </tr>
+                                <tr class="alert-success fw-bold">
+                                    <th class="text-sm-end">Số tiền đến hạn:</th>
+                                    <td>@((Model.Order.TotalMoney - Model.Order.TotalDiscount).Value.ToString("#,0 ₫", culture.NumberFormat))</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive scrollbar mt-4 fs--1">
+                <table class="table table-striped border-bottom">
+                    <thead class="light">
+                        <tr class="bg-primary text-white dark__bg-1000">
+                            <th class="border-0">Sản phẩm</th>
+                            <th class="border-0 text-center">số lượng</th>
+                            <th class="border-0 text-end">Giá</th>
+                            <th class="border-0 text-end">Tổng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CartItems)
+                        {
+                            <tr>
+                                <td class="align-middle">
+                                    <h6 class="mb-0 text-nowrap">@item.Product.ProductName</h6>
+                                    <p class="mb-0">Màu: @item.Color.ColorName, size: @item.Size</p>
+                                </td>
+                                <td class="align-middle text-center">@item.Amount</td>
+                                <td class="align-middle text-end row">
+                                    @if (item.Product.Discount > 0)
+                                    {
+                                        <span class=" text-nowrap">@item.Product.Discount.Value.ToString("#,0 ₫", culture.NumberFormat)</span>
+                                        <span class="text-decoration-line-through text-nowrap">@item.Product.Price.ToString("#,0 ₫", culture.NumberFormat)</span>
+
+                                    }
+                                    else
+                                    {
+                                        <span class=" text-nowrap">@item.Product.Price.ToString("#,0 ₫", culture.NumberFormat)</span>
+                                    }
+                                </td>
+                                <td class="align-middle text-end">@item.TotalMoney.ToString("#,0 ₫", culture.NumberFormat)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-auto">
+                    <table class="table table-sm table-borderless fs--1 text-end">
+                        <tr>
+                            <th class="text-900">Tổng phụ:</th>
+                            <td class="fw-semi-bold">@Model.Order.TotalMoney.Value.ToString("#,0 ₫", culture.NumberFormat) </td>
+                        </tr>
+                        <tr>
+                            <th class="text-900">Chiết khấu (bao gồm thuế):</th>
+                            <td class="fw-semi-bold">@Model.Order.TotalDiscount.Value.ToString("#,0 ₫", culture.NumberFormat)</td>
+                        </tr>
+                        <tr class="border-top">
+                            <th class="text-900">Tổng:</th>
+                            <td class="fw-semi-bold">@((Model.Order.TotalMoney - Model.Order.TotalDiscount).Value.ToString("#,0 ₫", culture.NumberFormat))</td>
+                        </tr>
+                        <tr class="border-top border-top-2 fw-bolder text-900">
+                            <th>Thanh toán đến hạn:</th>
+                            <td>@((Model.Order.TotalMoney - Model.Order.TotalDiscount).Value.ToString("#,0 ₫", culture.NumberFormat))</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @* <div class="card-footer bg-light">
+        <p class="fs--1 mb-0"><strong>Notes: </strong>We really appreciate your business and if there’s anything else we can do, please let us know!</p>
+        </div> *@
+    </div>
+</div>
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function ($) {
+
+            $(document).on('click', '.btn_print', function (event) {
+                event.preventDefault();
+
+                //credit : https://ekoopmans.github.io/html2pdf.js
+
+                var element = document.getElementById('invoice_bill');
+
+                //easy
+                //html2pdf().from(element).save();
+
+                //custom file name
+                //html2pdf().set({filename: 'code_with_mark_'+js.AutoCode()+'.pdf'}).from(element).save();
+
+
+                //more custom settings
+                var opt =
+                {
+                    margin: 1,
+                    filename: 'hoa-don-' +'@Model.Order.OrderId'+ '.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+
+                // New Promise-based usage:
+                html2pdf().set(opt).from(element).save();
+
+
+            });
+
+
+
+        });
+    </script>
+}

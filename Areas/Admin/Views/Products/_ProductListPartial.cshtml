@@ -1,0 +1,30 @@
+﻿@model IEnumerable<TShop.Models.Product>
+@foreach (var item in Model)
+{
+    <tr>
+        <td class="index">
+        </td>
+
+        <td class=""><img src="@item.Variants.Select(v => v.Thumb).First()" style="max-width: 80px;" /> </td>
+        <td class="name">
+            @Html.DisplayFor(modelItem => item.ProductName)
+        </td>
+        <td class="">@Html.DisplayFor(modelItem => item.ProductCode)</td>
+        <td class="">@((item.Stock > 0) ? item.Stock : "Hết hàng") </td>
+        <td class="">@Html.DisplayFor(modelItem => item.Price) - @Html.DisplayFor(modelItem => item.Discount)</td>
+        <td class="">@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
+        <td class="">@Html.DisplayFor(modelItem => item.DateCreated)</td>
+
+        <td>
+            <div class="dropdown font-sans-serif position-static">
+                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" id="customer-dropdown-24" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
+                <div class="dropdown-menu dropdown-menu-end border py-0" aria-labelledby="customer-dropdown-24">
+                    <div class="bg-white py-2">
+                        <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.ProductId">Chỉnh sửa</a>
+                        <a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@item.ProductId">Xóa</a>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+}

@@ -1,0 +1,64 @@
+﻿@model TShop.ViewModels.LoginVM
+
+<!-- Login 2 - Bootstrap Brain Component -->
+<div class="bg-light py-3 py-md-5">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-11 col-lg-8 col-xl-7 col-xxl-6">
+                <div class="bg-white p-4 p-md-5 rounded shadow-sm">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-5">
+                                <h3>Đăng nhập</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <form asp-action="Login" method="post">
+                        <div class="row gy-3 gy-md-4 overflow-hidden">
+                            <div class="col-12">
+                                <label class="form-label" asp-for="Email"></label>
+                                    <input type="email" asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" asp-for="Password"></label>
+                                <input type="password" asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    @Html.CheckBoxFor(model => model.keepLoggedIn, new { @class = "form-check-input" })
+                                    <label class="form-check-label" asp-for="keepLoggedIn"> Nhớ đăng nhập </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-grid">
+                                    <button class="btn btn-lg btn-primary" type="submit">Đăng nhập</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-12">
+                            <hr class="mt-5 mb-4 border-secondary-subtle">
+                            <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-end">
+                                <p>Chưa có tài khoản? <a asp-controller="Accounts" asp-action="Register">Đăng ký</a></p>
+                                <a href="#!" class="link-secondary text-decoration-none">Forgot password</a>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}

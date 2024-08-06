@@ -1,0 +1,83 @@
+﻿@model IEnumerable<TShop.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Danh sách danh mục</h1>
+
+<div class="content">
+
+    <a class="btn btn-sm btn-falcon-default  mb-3" asp-action="Create"><span class="fas fa-plus me-2"></span>Thêm danh mục</a>
+    <div class="kanban-container scrollbar me-n3">
+        @foreach (var item in Model.Where(c => c.Levels == null && c.ParentId == null))
+        {
+            <div class="kanban-column">
+                <div class="kanban-column-header bg-white">
+                    <h5 class="fs-1 mb-0">@item.CategoryName</h5>
+                    <div class="dropdown font-sans-serif btn-reveal-trigger">
+                        <button class="btn btn-sm btn-reveal py-0 px-2" type="button" id="kanbanColumn1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h"></span></button>
+                        <div class="dropdown-menu dropdown-menu-end py-0" aria-labelledby="kanbanColumn1">
+                            <a class="dropdown-item" asp-controller="Categories" asp-action="Create" asp-route-level="1" asp-route-parentid="@item.CategoryId">Thêm loại danh mục</a>
+                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.CategoryId">Chỉnh sửa</a>
+                            <div class="dropdown-divider"></div><a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@item.CategoryId">Xóa</a>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+                <div class="kanban-items-container scrollbar bg-white">
+                    <div class="fs--1">Loại danh mục: </div>
+                    @foreach (var sub in Model.Where(c => c.ParentId == item.CategoryId))
+                    {
+                        <div class="kanban-item mt-0 mb-2">
+                            <div class="card kanban-item-card hover-actions-trigger bg-light">
+                                <div class="card-body py-2">
+                                    <div class="position-relative">
+                                        <div class="dropdown font-sans-serif">
+                                            <button class="btn btn-sm btn-falcon-default kanban-item-dropdown-btn hover-actions" type="button" data-boundary="viewport" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h" data-fa-transform="shrink-2"></span></button>
+                                            <div class="dropdown-menu dropdown-menu-end py-0">
+                                                <a class="dropdown-item" asp-controller="Categories" asp-action="Create" asp-route-level="2" asp-route-parentid="@sub.CategoryId">Thêm kiểu danh mục</a>
+                                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@sub.CategoryId">Chỉnh sửa</a>
+                                                <div class="dropdown-divider"></div><a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@sub.CategoryId">Xóa</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mb-0 fw-medium  font-sans-serif stretched-link fs-0 text-decoration-underline">@sub.CategoryName</p>
+                                    <div class="fs--1 mt-3">Kiểu danh mục: </div>
+
+                                    @foreach (var type in Model.Where(c => c.Levels == 2 && c.ParentId == sub.CategoryId))
+                                    {
+                                        <div class="kanban-item mt-0 mb-1">
+                                            <div class="card kanban-item-card hover-actions-trigger p-0">
+
+                                                <div class="card-body py-2">
+                                                    <div class="position-relative">
+                                                        <div class="dropdown font-sans-serif">
+                                                            <button class="btn btn-sm btn-falcon-default kanban-item-dropdown-btn hover-actions" type="button" data-boundary="viewport" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h" data-fa-transform="shrink-2"></span></button>
+                                                            <div class="dropdown-menu dropdown-menu-end py-0">
+
+                                                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@type.CategoryId">Chỉnh sửa</a>
+
+                                                                <div class="dropdown-divider"></div><a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@type.CategoryId">Xóa</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p class="mb-0 fw-medium font-sans-serif stretched-link fst-italic">@type.CategoryName</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="kanban-column-footer bg-white"></div>
+
+            </div>
+        }
+    </div>
+</div>

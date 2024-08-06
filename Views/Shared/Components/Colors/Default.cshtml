@@ -1,0 +1,10 @@
+﻿@model IEnumerable< TShop.Models.Color>
+<div class="shop__sidebar__color">
+    @foreach (var item in Model)
+    {
+        <div class="color__form" data-colorid="@item.ColorId">
+            <label class="color__cricle" style="background-color:@item.ColorHex"  for="sp-2">
+            </label>
+        </div>
+    }
+</div>

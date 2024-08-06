@@ -1,0 +1,88 @@
+﻿@model List<TShop.ViewModels.ProductVM>
+@{
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+@foreach (var item in Model)
+{
+    var imgLabel = "";
+    @if(item.HotDeal == true)
+    {
+        imgLabel = "https://media.canifa.com/attribute/swatch/d/e/desktop-hotdeal-09.05.webp";
+    }
+  
+    <div class="product__item__card">
+        <div class="product__item">
+            <div class="product__item__pic set-bg">
+                <a asp-controller="Product" asp-action="Detail" asp-route-alias="@item.Alias">
+                    <img id="product-image-@item.ProductId" class="img__product" src="" alt="">
+                </a>
+                <div class="product__item__image__label">
+                    <img src="@imgLabel" />
+                </div>
+                @* <ul class="product__hover">
+                    <li><a href="#"><img src="~/TShop/img/icon/heart.png" alt=""></a></li>
+                    <li>
+                        <a href="#"><img src="~/TShop/img/icon/compare.png" alt=""> <span>Compare</span></a>
+                    </li>
+                    <li><a href="#"><img src="~/TShop/img/icon/search.png" alt=""></a></li>
+                </ul> *@
+                <div class="add-cart">
+                    <span>Thêm giỏ hàng</span>
+                </div>
+                <div class="product__size__select" data-variant='@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(item.Variants.Select(v => new
+                    {
+                        v.ColorId,
+                        VariantDetails = v.VariantDetails.Select(vd => new
+                        {
+                            vd.VariantDetailId,
+                            vd.SizeName,
+                            vd.Quantity
+                        })
+                    })))'>
+                </div>
+            </div>
+            <div class="product__item__text">
+                <div class="product__color__select ms-0" data-product-id="@item.ProductId">
+                    @foreach (var variant in item.Variants)
+                    {
+                        <div class="color__show" data-discount="@item.Discount" data-price="@item.Price" data-color-id="@variant.ColorId" data-product-id="@item.ProductId" data-main-image-url="@variant.Thumb">
+                            <label style="background: @variant.ColorHex" class="color__cricle__show"></label>
+                        </div>
+                    }
+                </div>
+                <a asp-controller="Product" asp-action="Detail" asp-route-alias="@item.Alias">
+                    <span class="mt-3 product__name text-truncate">@item.ProductName</span>
+                </a>
+                @if (item.Discount != null && item.Discount != item.Price)
+                {
+                   <div>
+                        <span class="price__after mb-0">
+                            @(item.Discount?.ToString("#,0 ₫", culture.NumberFormat))
+                        </span>
+                    </div>
+                    <span class="price__before">@item.Price.ToString("#,0 ₫", culture.NumberFormat)</span>
+
+                    <span class="price__sale">-@((int)((item.Price - item.Discount) / (double)item.Price * 100 ))%</span>
+                }
+                else
+                {
+                    <div>
+                    <span class="price__after mb-0">
+                        @item.Price.ToString("#,0 ₫", culture.NumberFormat)
+                    </span>
+                    </div>
+                }
+                
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+
+
+
+
+

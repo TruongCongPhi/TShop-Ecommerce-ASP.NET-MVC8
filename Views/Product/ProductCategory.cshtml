@@ -1,0 +1,44 @@
+﻿@model List<TShop.ViewModels.ProductTypeCategoryVM>
+@{
+    ViewData["Title"] = ViewBag.CategoryName;
+    var CatALias = ViewBag.CategoryAlias;
+
+}
+
+<section class="product-banner spad">
+    
+    <div class="block-product">
+        <div class="row col-12">
+            <div class="breadcrumb__option">
+                <a href="/">Trang chủ</a>
+                <span>@ViewBag.CategoryName</span>
+
+            </div>
+        </div>
+        @foreach (var item in Model)
+        {
+            <div class="product-slider-container">
+                <div class="d-flex justify-content-between align-items-center  mb-2">
+                    <h2>@item.TypeCategory.CategoryName</h2>
+                    <a asp-controller="Product" asp-action="ProductTypeCategoryDetail" asp-route-category="@CatALias" asp-route-typecategory="@item.TypeCategory.Alias">
+                        Xem thêm <i class="fa fa-angle-double-right" style="color:#e53637" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <div class=" d-flex">
+                    <div class="col-sm-4 col-lg-4 pe-4" style="min-width:340px">
+                        <div class="product-large">
+                            <div class="product-large-img">
+                                <a href="#"><img src="@item.TypeCategory.Thumb" /></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 col-lg-8">
+                        <div class="product-slider-3 product-slider owl-carousel">
+                            @await Html.PartialAsync("ProductItem", item.ProductTypeCats)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
